@@ -18,7 +18,10 @@
            [routerLink]="nav.navPath" >
           <span style="display: inline-block;"
                 [style.padding-left.rem]="nav.depth"
-          >{{nav.label}}</span>
+          >
+            <mat-icon *ngIf="nav.icon">{{nav.icon}}</mat-icon>
+            {{nav.label}}
+          </span>
         </a>
       </mat-nav-list>
     </mat-sidenav>
