@@ -1,0 +1,12 @@
+<div style="flex: 1 1 300px;">
+  Colors
+  <div *ngFor="let color of colors">
+    <label>{{color.title}}</label>
+    <input [(ngModel)]="color.color" (ngModelChange)="changed()">
+    <div class="color-sample" [style.background]="color.color"></div>
+  </div>
+</div>
+<div style="flex: 1 1 auto;">
+  <div #styleContainer></div>
+  <router-outlet></router-outlet>
+</div>
