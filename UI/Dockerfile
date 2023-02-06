@@ -14,5 +14,5 @@ RUN ng build
 
 FROM base AS final
 WORKDIR /usr/share/nginx/html
-COPY --from=build /app/docs/web-ui/ .
+COPY --from=build /app/docs/ .
 CMD ["nginx", "-g", "daemon off;"]
