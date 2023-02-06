@@ -3,7 +3,7 @@ COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
 RUN rm -rf /usr/share/nginx/html/*
 WORKDIR /app
 
-FROM node:19-bullseye-slim AS build
+FROM node:18-bullseye-slim AS build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 RUN npm i -g @angular/cli
