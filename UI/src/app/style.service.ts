@@ -23,7 +23,11 @@ export class StyleService {
     const sub = new Subject<string>();
     const palette = this.buildPalette(param)
     const theme = this.buildTheme(param, palette);
-    this.httpClient.post<any>('api/', {styles: theme}).pipe(tap((result: any) => {
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    this.httpClient.post<any>('api/', {styles: theme}, {headers}).pipe(tap((result: any) => {
       console.log(result);
       sub.next(result.text)
     })).subscribe();
