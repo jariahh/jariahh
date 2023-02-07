@@ -1,5 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { urlencoded } from 'express';
+import { Subject, tap } from 'rxjs';
 declare var Sass: any;
 const scss = new Sass('/assets/sass.worker.js');
 export class Options {
@@ -13,31 +16,24 @@ export class Options {
 })
 export class StyleService {
 
-  constructor() {
-    scss.writeFile({
-        '../all-theme': '/assets/@angular/material/core/theming/all-theme',
-        '../../core': '/assets/@angular/material/core',
-        '../theming': '/assets/@angular/material/core/theming',
-        '../../typography/all-typography': '/assets/@angular/material/core/typography/all-typography',
-        '../../typography/typography': '/assets/@angular/material/core/typography/typography'
-      },
-      (results: any) => console.log(results))
+  constructor(private httpClient: HttpClient) {
   }
 
   public getCSS(param: Options) {
     const sub = new Subject<string>();
     const palette = this.buildPalette(param)
     const theme = this.buildTheme(param, palette);
+    const formData = new FormData();
+    formData.append('styles', theme)
     console.log(theme);
-    scss.compile(theme, (result: any) => {
+    this.httpClient.post<any>('api/', formData).pipe(tap((result: any) => {
       console.log(result);
       sub.next(result.text)
-    });
+    })).subscribe();
     return sub;
   }
   private buildTheme(options: Options, palette: string){
-    return `
-@use 'sass:map';
+    return `@use 'sass:map';
 @use '@angular/material/core/theming/all-theme';
 @use '@angular/material/core/core';
 @use '@angular/material/core/theming/theming';
