@@ -15,7 +15,7 @@ app.post('/', (req, res) => {
     res.send(`${compileResult.css}`);
   }, (reportError) => {
     res.send(`Error: ${JSON.stringify(req.body)}
-    ReportError: ${JSON.stringify(reportError)}
+    ReportError: ${reportError}
     `)
   });
 
