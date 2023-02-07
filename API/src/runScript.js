@@ -20,7 +20,7 @@ app.post('/', (req, res) => {
   sass.compileStringAsync(req.body.styles, {
     loadPaths: ['node_modules']
   }).then((compileResult) => {
-    res.send(`${compileResult.css}`);
+    res.send(JSON.stringify({css: compileResult.css}));
   }, (reportError) => {
     res.send(`
     Error: ${JSON.stringify(req.body)}\n\n
