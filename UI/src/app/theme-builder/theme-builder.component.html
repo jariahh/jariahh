@@ -1,12 +1,76 @@
-<div style="flex: 1 1 300px;">
-  Colors
-  <div *ngFor="let color of colors">
-    <label>{{color.title}}</label>
-    <input [(ngModel)]="color.color" (ngModelChange)="changed()">
-    <div class="color-sample" [style.background]="color.color"></div>
+<mat-toolbar color="primary" class="mat-elevation-z3">
+<mat-toolbar-row>
+  <h1>Material Theme Generator</h1>
+  <mat-button-toggle-group [value]="selectedTheme.title" style="margin: .5rem;" (change)="selectTheme($event)">
+    <mat-button-toggle *ngFor="let theme of themes" [value]="theme.title">
+      {{theme.title}}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-toolbar-row>
+</mat-toolbar>
+<div class="sealed-container {{selectedTheme?.title?.toLowerCase()+'-theme'}}">
+  <div style="border-right: 1px solid #cecece; flex: 1 1 500px;"
+       *ngIf="isSettingsOpen">
+    <div>
+      <div style="padding: .5rem;">Palette</div>
+      <div style="display: flex">
+        <div class="color-chip" *ngFor="let color of palettes">
+          <label class="title-case">{{color.title | titlecase}}</label>
+          <input style="display: none" [ngxMatColorPicker]="picker" matInput [formControl]="color.backgroundColor">
+          <ngx-mat-color-picker #picker [touchUi]="true" [color]="color.title"></ngx-mat-color-picker>
+          <div (click)="picker.open()" class="color-sample" [style.background]="color.backgroundColor.value"></div>
+          <app-color-view [color]="color.backgroundColor.value"></app-color-view>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="padding: .5rem;">Themes</div>
+      <table style="width: 100%" class="theme-table">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Text</th>
+          <th>Background</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let theme of themes">
+          <td>{{theme.title}}</td>
+          <td class="display-value"
+              [style.background-color]="theme.color.value?.hex"
+              [style.color]="theme.backgroundColor.value?.hex"
+              (click)="pickerColor.open()">
+            #{{theme.color.value?.hex}}
+            <input style="display: none" [ngxMatColorPicker]="pickerColor" matInput [formControl]="theme.color">
+            <ngx-mat-color-picker #pickerColor [touchUi]="true" [color]="'primary'"></ngx-mat-color-picker>
+          </td>
+          <td class="display-value"
+              [style.background-color]="theme.backgroundColor.value?.hex"
+              [style.color]="theme.color.value?.hex"
+              (click)="pickerBackgroundColor.open()">
+            #{{theme.backgroundColor.value?.hex}}
+            <input style="display: none" [ngxMatColorPicker]="pickerBackgroundColor" matInput
+                   [formControl]="theme.backgroundColor">
+            <ngx-mat-color-picker #pickerBackgroundColor [touchUi]="true" [color]="'primary'"></ngx-mat-color-picker>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button mat-stroked-button (click)="changed()">Update</button>
+    </div>
   </div>
-</div>
-<div style="flex: 1 1 auto;">
-  <div #styleContainer></div>
-  <router-outlet></router-outlet>
+  <div style="flex: 1 0 36px;">
+    <div class="toggleButton">
+      <button mat-button style="margin: 0" (click)="toggleSettings()">View Settings</button>
+    </div>
+  </div>
+  <div style="flex: 1 1 auto; border-left: 1px solid #cecece;">
+    <div class="loading" *ngIf="isLoading">
+      <div class="text">Loading</div>
+    </div>
+    <div #styleContainer></div>
+    <router-outlet></router-outlet>
+  </div>
 </div>

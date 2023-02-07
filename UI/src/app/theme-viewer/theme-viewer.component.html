@@ -27,6 +27,16 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <mat-toolbar color="accent">
+        <mat-toolbar-row>
+          <h1>Header Accent</h1>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-toolbar color="warn">
+        <mat-toolbar-row>
+          <h1>Header Warn</h1>
+        </mat-toolbar-row>
+      </mat-toolbar>
       <div style="padding: 1rem"><p *ngFor="let content of fillerContent">{{content}}</p></div>
     </mat-sidenav-content>
   </mat-sidenav-container>

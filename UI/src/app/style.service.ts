@@ -1,13 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { urlencoded } from 'express';
 import { Subject, tap } from 'rxjs';
-declare var Sass: any;
-const scss = new Sass('/assets/sass.worker.js');
+import { getContrastYIQ } from './theme-builder/color-view/get-contrast-y-i.q';
+import { shadeColor } from './theme-builder/color-view/shade.color';
 export class Options {
+  themes: {
+    color: string
+    backgroundColor: string
+    title: string
+  }[] = [];
   colors: {
     color: string
+    backgroundColor: string
     title: string
   }[] = [];
 }
@@ -18,7 +22,7 @@ export class StyleService {
 
   constructor(private httpClient: HttpClient) {
   }
-
+  request: any = null;
   public getCSS(param: Options) {
     const sub = new Subject<string>();
     const palette = this.buildPalette(param)
@@ -26,11 +30,14 @@ export class StyleService {
 
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
-
-    this.httpClient.post<any>('api/', {styles: theme}, {headers}).pipe(tap((result: any) => {
-      console.log(result);
-      sub.next(result.text)
-    })).subscribe();
+    if (this.request)
+      this.request.unsubscribe();
+    this.request = this.httpClient.post<any>('api/', {styles: theme}, {headers})
+      .pipe(tap((result: any) => {
+        console.log(result);
+        this.request = null;
+        sub.next(result.css)
+      })).subscribe();
     return sub;
   }
   private buildTheme(options: Options, palette: string){
@@ -60,11 +67,12 @@ $theme: theming.define-light-theme((
   typography: all-typography.define-typography-config(),
   density: 0,
 ));
+.sealed-container{
+  // Include all theme styles for the components.
+  @include all-theme.all-component-themes($theme);
 
-// Include all theme styles for the components.
-@include all-theme.all-component-themes($theme);
-
-@include typography.typography-hierarchy($theme);
+  @include typography.typography-hierarchy($theme);
+}
     `;
   }
   private buildPalette(options: Options){
@@ -82,37 +90,52 @@ $light-dividers: rgba(white, 0.12);
 $light-focused: rgba(white, 0.12);
 
 ${options.colors.map(color => {
+  const colorShades = {50: shadeColor(color.backgroundColor, 100),
+    100: shadeColor(color.backgroundColor, 75),
+    200: shadeColor(color.backgroundColor, 50),
+    300: shadeColor(color.backgroundColor, 25),
+    400: shadeColor(color.backgroundColor, 10),
+    500: color.backgroundColor,
+    600: shadeColor(color.backgroundColor, -10),
+    700: shadeColor(color.backgroundColor, -20),
+    800: shadeColor(color.backgroundColor, -30),
+    900: shadeColor(color.backgroundColor, -40),
+    A100:shadeColor(color.backgroundColor, 70),
+    A200:shadeColor(color.backgroundColor, 55),
+    A400:shadeColor(color.backgroundColor, 5),
+    A700:shadeColor(color.backgroundColor, -25)
+  };
   return `
 $${color.title.toLowerCase()}-palette: (
-  50: darken(${color.color}, 5%),
-  100: lighten(${color.color}, 0%),
-  200: lighten(${color.color}, 20%),
-  300: lighten(${color.color}, 30%),
-  400: lighten(${color.color}, 40%),
-  500: lighten(${color.color}, 50%),
-  600: lighten(${color.color}, 60%),
-  700: lighten(${color.color}, 70%),
-  800: lighten(${color.color}, 80%),
-  900: lighten(${color.color}, 90%),
-  A100: #ff8a80,
-  A200: #ff5252,
-  A400: #ff1744,
-  A700: #d50000,
+  50:   ${colorShades['50']  },
+  100:  ${colorShades['100'] },
+  200:  ${colorShades['200'] },
+  300:  ${colorShades['300'] },
+  400:  ${colorShades['400'] },
+  500:  ${colorShades['500'] },
+  600:  ${colorShades['600'] },
+  700:  ${colorShades['700'] },
+  800:  ${colorShades['800'] },
+  900:  ${colorShades['900'] },
+  A100: ${colorShades['A100']},
+  A200: ${colorShades['A200']},
+  A400: ${colorShades['A400']},
+  A700: ${colorShades['A700']},
   contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text,
+    50:   ${getContrastYIQ(colorShades['50']  , '#fff', '#000')},
+    100:  ${getContrastYIQ(colorShades['100'] , '#fff', '#000')},
+    200:  ${getContrastYIQ(colorShades['200'] , '#fff', '#000')},
+    300:  ${getContrastYIQ(colorShades['300'] , '#fff', '#000')},
+    400:  ${getContrastYIQ(colorShades['400'] , '#fff', '#000')},
+    500:  ${getContrastYIQ(colorShades['500'] , '#fff', '#000')},
+    600:  ${getContrastYIQ(colorShades['600'] , '#fff', '#000')},
+    700:  ${getContrastYIQ(colorShades['700'] , '#fff', '#000')},
+    800:  ${getContrastYIQ(colorShades['800'] , '#fff', '#000')},
+    900:  ${getContrastYIQ(colorShades['900'] , '#fff', '#000')},
+    A100: ${getContrastYIQ(colorShades['A100'], '#fff', '#000')},
+    A200: ${getContrastYIQ(colorShades['A200'], '#fff', '#000')},
+    A400: ${getContrastYIQ(colorShades['A400'], '#fff', '#000')},
+    A700: ${getContrastYIQ(colorShades['A700'], '#fff', '#000')},
   )
 );`
     }).join('')}            `
