@@ -4,6 +4,7 @@ const sass = require('sass');
 const port = 80;
 
 const app = express()
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //create a server object:
