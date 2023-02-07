@@ -10,12 +10,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //create a server object:
 app.post('/', (req, res) => {
   res.setHeader("Content-Type", "application/json");
+
   sass.compileStringAsync(req.body.style, {
     loadPaths: ['node_modules']
   }).then((compileResult) => {
     res.send(`${compileResult.css}`);
   }, (reportError) => {
-    res.send(`Error: ${JSON.stringify(req.body)}
+    res.send(`
+    Error: ${JSON.stringify(req.body)}\n\n
+    styles: ${req.body.style}\n\n
     ReportError: ${reportError}
     `)
   });

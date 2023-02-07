@@ -23,10 +23,7 @@ export class StyleService {
     const sub = new Subject<string>();
     const palette = this.buildPalette(param)
     const theme = this.buildTheme(param, palette);
-    const formData = new FormData();
-    formData.append('styles', theme)
-    console.log(theme);
-    this.httpClient.post<any>('api/', formData).pipe(tap((result: any) => {
+    this.httpClient.post<any>('api/', {styles: theme}).pipe(tap((result: any) => {
       console.log(result);
       sub.next(result.text)
     })).subscribe();
