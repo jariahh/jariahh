@@ -17,14 +17,14 @@ app.all("/*", function(req, res, next){
 app.post('/', (req, res) => {
   res.setHeader("Content-Type", "application/json");
 
-  sass.compileStringAsync(JSON.parse(req.body).style, {
+  sass.compileStringAsync(req.body.styles, {
     loadPaths: ['node_modules']
   }).then((compileResult) => {
     res.send(`${compileResult.css}`);
   }, (reportError) => {
     res.send(`
     Error: ${JSON.stringify(req.body)}\n\n
-    styles: ${req.body.style}\n\n
+    styles: ${req.body.styles}\n\n
     ReportError: ${reportError}
     `)
   });
