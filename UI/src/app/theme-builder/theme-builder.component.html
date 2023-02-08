@@ -6,20 +6,43 @@
       {{theme.title}}
     </mat-button-toggle>
   </mat-button-toggle-group>
+  <div style="flex: 1 1 auto"></div>
+  <button (click)="getScss()" mat-stroked-button><mat-icon>download</mat-icon> Get Scss</button>
 </mat-toolbar-row>
 </mat-toolbar>
-<div class="sealed-container {{selectedTheme?.title?.toLowerCase()+'-theme'}}">
-  <div style="border-right: 1px solid #cecece; flex: 1 1 500px;"
+<div class="main-container">
+  <div style="flex: 1 1 auto;border-left: 1px solid #cecece;position: absolute;left: 0;top: 0;" class="sealed-container mat-body {{selectThemeClass}}">
+    <div class="loading" *ngIf="isLoading">
+      <div class="text">Loading</div>
+    </div>
+    <div #styleContainer>
+    </div>
+    <div class="mat-typography">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div style="border-bottom: 1px solid #cecece; flex: 1 1 calc(100% - 36px); height: 100%; overflow: auto; position: relative; z-index: 4; background-color: #fff;"
        *ngIf="isSettingsOpen">
     <div>
-      <div style="padding: .5rem;">Palette</div>
+      <div style="padding: .5rem; display: flex;">
+        <div>Palette</div>
+        <div style="flex: 1 1 auto;"></div>
+        <div>
+          <button mat-stroked-button (click)="addPallet()">Add</button>
+        </div>
+      </div>
       <div style="display: flex">
         <div class="color-chip" *ngFor="let color of palettes">
           <label class="title-case">{{color.title | titlecase}}</label>
-          <input style="display: none" [ngxMatColorPicker]="picker" matInput [formControl]="color.backgroundColor">
-          <ngx-mat-color-picker #picker [touchUi]="true" [color]="color.title"></ngx-mat-color-picker>
-          <div (click)="picker.open()" class="color-sample" [style.background]="color.backgroundColor.value"></div>
-          <app-color-view [color]="color.backgroundColor.value"></app-color-view>
+          <input style="display: none" matInput [formControl]="color.backgroundColor">
+          <app-color-swatch [light]="lightFont"
+                            [dark]="darkFont"
+                            [swatchHeight]="'60px'"
+                            [color]="color.backgroundColor.value"
+                            (colorChange)="colorChange(color.backgroundColor, $event)"></app-color-swatch>
+          <app-color-view [light]="lightFont"
+                          [dark]="darkFont"
+                          [color]="color.backgroundColor.value"></app-color-view>
         </div>
       </div>
     </div>
@@ -37,21 +60,72 @@
         <tr *ngFor="let theme of themes">
           <td>{{theme.title}}</td>
           <td class="display-value"
-              [style.background-color]="theme.color.value?.hex"
-              [style.color]="theme.backgroundColor.value?.hex"
-              (click)="pickerColor.open()">
-            #{{theme.color.value?.hex}}
-            <input style="display: none" [ngxMatColorPicker]="pickerColor" matInput [formControl]="theme.color">
-            <ngx-mat-color-picker #pickerColor [touchUi]="true" [color]="'primary'"></ngx-mat-color-picker>
+              [style.background-color]="theme.color.value"
+              [style.color]="theme.backgroundColor.value">
+            <input style="display: none"  matInput [formControl]="theme.color">
+            <app-color-swatch [color]="theme.color.value ?? ''"
+                              [light]="lightFont"
+                              [dark]="darkFont"
+                              (colorChange)="colorChange(theme.color, $event)"></app-color-swatch>
           </td>
           <td class="display-value"
-              [style.background-color]="theme.backgroundColor.value?.hex"
-              [style.color]="theme.color.value?.hex"
-              (click)="pickerBackgroundColor.open()">
-            #{{theme.backgroundColor.value?.hex}}
-            <input style="display: none" [ngxMatColorPicker]="pickerBackgroundColor" matInput
+              [style.background-color]="theme.backgroundColor.value"
+              [style.color]="theme.color.value">
+            <input style="display: none"  matInput
                    [formControl]="theme.backgroundColor">
-            <ngx-mat-color-picker #pickerBackgroundColor [touchUi]="true" [color]="'primary'"></ngx-mat-color-picker>
+            <app-color-swatch [color]="theme.backgroundColor.value ?? ''"
+                              [light]="lightFont"
+                              [dark]="darkFont"
+                              (colorChange)="colorChange(theme.backgroundColor, $event)"></app-color-swatch>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div style="padding: .5rem;">Typography</div>
+      <table style="width: 100%" class="theme-table">
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Family</th>
+          <th>Weight</th>
+          <th>Size</th>
+          <th>Height</th>
+          <th>Spacing</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let level of typographyLevels">
+          <td>{{level.name}}</td>
+          <td>
+            <mat-form-field>
+              <mat-select [(ngModel)]="level.settings.fontFamily" (ngModelChange)="updateOptions()">
+                <mat-option *ngFor="let family of fontFamilies" [value]="family">{{family}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-select [(ngModel)]="level.settings.fontWeight" (ngModelChange)="updateOptions()">
+                <mat-option *ngFor="let weight of ['thin', 'light', 'regular', 'medium', 'bold', 'black']" [value]="weight">{{weight}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput [(ngModel)]="level.settings.fontSize" (ngModelChange)="updateOptions()"/>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput [(ngModel)]="level.settings.lineHeight" (ngModelChange)="updateOptions()"/>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput [(ngModel)]="level.settings.letterSpacing" (ngModelChange)="updateOptions()"/>
+            </mat-form-field>
           </td>
         </tr>
         </tbody>
@@ -61,16 +135,9 @@
       <button mat-stroked-button (click)="changed()">Update</button>
     </div>
   </div>
-  <div style="flex: 1 0 36px;">
+  <div style="flex: 1 0 36px; position: relative; z-index: 4;">
     <div class="toggleButton">
       <button mat-button style="margin: 0" (click)="toggleSettings()">View Settings</button>
     </div>
-  </div>
-  <div style="flex: 1 1 auto; border-left: 1px solid #cecece;">
-    <div class="loading" *ngIf="isLoading">
-      <div class="text">Loading</div>
-    </div>
-    <div #styleContainer></div>
-    <router-outlet></router-outlet>
   </div>
 </div>

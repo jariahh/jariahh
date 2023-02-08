@@ -15,6 +15,7 @@
         <a mat-list-item
            *ngFor="let nav of fillerNav"
            [routerLinkActive]="'active'"
+           (click)="snav.close()"
            [routerLink]="nav.navPath" >
           <span style="display: inline-block;"
                 [style.padding-left.rem]="nav.depth"
@@ -27,17 +28,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <mat-toolbar color="accent">
-        <mat-toolbar-row>
-          <h1>Header Accent</h1>
-        </mat-toolbar-row>
-      </mat-toolbar>
-      <mat-toolbar color="warn">
-        <mat-toolbar-row>
-          <h1>Header Warn</h1>
-        </mat-toolbar-row>
-      </mat-toolbar>
-      <div style="padding: 1rem"><p *ngFor="let content of fillerContent">{{content}}</p></div>
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

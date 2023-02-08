@@ -1,0 +1,15 @@
+<div class="color-sample"
+     (click)="open()"
+     [style.color]="invertedColor"
+     [style.height]="swatchHeight"
+     [style.line-height]="swatchHeight"
+     [style.background]="color">
+  {{color}}
+</div>
+<color-sketch (mousedown)="isOver = true"
+              (mouseup)="mouseUp()"
+              #colorPicker
+              *ngIf="showPicker"
+              (colorChange)="colorChanged($event)"
+              style="position: absolute; z-index: 9999"
+              [(color)]="color"></color-sketch>

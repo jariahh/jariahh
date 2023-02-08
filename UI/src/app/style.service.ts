@@ -1,9 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import invert from 'invert-color';
 import { Subject, tap } from 'rxjs';
-import { getContrastYIQ } from './theme-builder/color-view/get-contrast-y-i.q';
 import { shadeColor } from './theme-builder/color-view/shade.color';
+import _ from 'underscore';
 export class Options {
+  typographyLevels: {
+    name: string,
+    settings: {
+      fontFamily: string,
+      fontWeight: string,
+      fontSize: string,
+      lineHeight: string,
+      letterSpacing: string,
+    }
+  }[] = []
   themes: {
     color: string
     backgroundColor: string
@@ -40,54 +51,71 @@ export class StyleService {
       })).subscribe();
     return sub;
   }
-  private buildTheme(options: Options, palette: string){
+  private buildTheme(options: Options, palette: string, wrapText = true) {
     return `@use 'sass:map';
 @use '@angular/material/core/theming/all-theme';
 @use '@angular/material/core/core';
 @use '@angular/material/core/theming/theming';
 @use '@angular/material/core/typography/all-typography';
 @use '@angular/material/core/typography/typography';
+@use '@angular/material' as mat;
 
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+${_.uniq(options.typographyLevels, (l: any) => l.settings.fontFamily).map((level) => {
+  return `
+@import url('https://fonts.googleapis.com/css2?family=${level.settings.fontFamily}:wght@300;400;500&display=swap');
+`
+    }).join('')}
+${this.buildTypography(options)}
 ${palette}
 // Include non-theme styles for core.
 @include core.core();
 
 // Define a theme.
-${options.colors.map(color =>{
-  return `
-$${color.title.toLowerCase()}: theming.define-palette($${color.title.toLowerCase()}-palette);`;
+${options.colors.map(color => {
+      return `
+$${this.titleToName(color.title)}: theming.define-palette($${this.titleToName(color.title)}-palette);`;
     }).join('')}
 
 $theme: theming.define-light-theme((
   color: (
-    ${options.colors.map(color =>{
-      return `${color.title.toLowerCase()}: $${color.title.toLowerCase()}`;
+    ${options.colors.map(color => {
+      return `${this.titleToName(color.title)}: $${this.titleToName(color.title)}`;
     }).join(',\n\t')}
   ),
-  typography: all-typography.define-typography-config(),
+  typography: $typography,
   density: 0,
 ));
-.sealed-container{
-  // Include all theme styles for the components.
-  @include all-theme.all-component-themes($theme);
+${this.wrapWithClass('.sealed-container', `
+// Include all theme styles for the components.
+@include all-theme.all-component-themes($theme);
 
-  @include typography.typography-hierarchy($theme);
-}
-    `;
+@include typography.typography-hierarchy($theme);
+${options.themes.map(theme => {
+      return this.wrapWithClass(`${wrapText? '&': ''}.${theme.title.toLowerCase()}-theme`, `
+    background-color: ${theme.backgroundColor};
+    color: ${theme.color};
+    `, theme.title !== 'Light')
+    }).join('')}`, wrapText)}
+`;
   }
   private buildPalette(options: Options){
+
+    const lightFont = options.themes?.find(t => t.title === 'Dark')?.color ?? '#fff';
+    const darkFont = options.themes?.find(t => t.title === 'Light')?.color ?? '#000';
+    console.log(lightFont, darkFont);
     return `
 
-$dark-primary-text: rgba(black, 0.87);
-$dark-secondary-text: rgba(black, 0.54);
-$dark-disabled-text: rgba(black, 0.38);
-$dark-dividers: rgba(black, 0.12);
-$dark-focused: rgba(black, 0.12);
-$light-primary-text: white;
-$light-secondary-text: rgba(white, 0.7);
-$light-disabled-text: rgba(white, 0.5);
-$light-dividers: rgba(white, 0.12);
-$light-focused: rgba(white, 0.12);
+$dark-primary-text: rgba(${darkFont}, 0.87);
+$dark-secondary-text: rgba(${darkFont}, 0.54);
+$dark-disabled-text: rgba(${darkFont}, 0.38);
+$dark-dividers: rgba(${darkFont}, 0.12);
+$dark-focused: rgba(${darkFont}, 0.12);
+$light-primary-text: ${lightFont};
+$light-secondary-text: rgba(${lightFont}, 0.7);
+$light-disabled-text: rgba(${lightFont}, 0.5);
+$light-dividers: rgba(${lightFont}, 0.12);
+$light-focused: rgba(${lightFont}, 0.12);
 
 ${options.colors.map(color => {
   const colorShades = {50: shadeColor(color.backgroundColor, 100),
@@ -106,7 +134,7 @@ ${options.colors.map(color => {
     A700:shadeColor(color.backgroundColor, -25)
   };
   return `
-$${color.title.toLowerCase()}-palette: (
+$${this.titleToName(color.title)}-palette: (
   50:   ${colorShades['50']  },
   100:  ${colorShades['100'] },
   200:  ${colorShades['200'] },
@@ -122,22 +150,50 @@ $${color.title.toLowerCase()}-palette: (
   A400: ${colorShades['A400']},
   A700: ${colorShades['A700']},
   contrast: (
-    50:   ${getContrastYIQ(colorShades['50']  , '#fff', '#000')},
-    100:  ${getContrastYIQ(colorShades['100'] , '#fff', '#000')},
-    200:  ${getContrastYIQ(colorShades['200'] , '#fff', '#000')},
-    300:  ${getContrastYIQ(colorShades['300'] , '#fff', '#000')},
-    400:  ${getContrastYIQ(colorShades['400'] , '#fff', '#000')},
-    500:  ${getContrastYIQ(colorShades['500'] , '#fff', '#000')},
-    600:  ${getContrastYIQ(colorShades['600'] , '#fff', '#000')},
-    700:  ${getContrastYIQ(colorShades['700'] , '#fff', '#000')},
-    800:  ${getContrastYIQ(colorShades['800'] , '#fff', '#000')},
-    900:  ${getContrastYIQ(colorShades['900'] , '#fff', '#000')},
-    A100: ${getContrastYIQ(colorShades['A100'], '#fff', '#000')},
-    A200: ${getContrastYIQ(colorShades['A200'], '#fff', '#000')},
-    A400: ${getContrastYIQ(colorShades['A400'], '#fff', '#000')},
-    A700: ${getContrastYIQ(colorShades['A700'], '#fff', '#000')},
+    50:   ${invert(colorShades['50']  , { black: darkFont, white: lightFont })},
+    100:  ${invert(colorShades['100'] , { black: darkFont, white: lightFont })},
+    200:  ${invert(colorShades['200'] , { black: darkFont, white: lightFont })},
+    300:  ${invert(colorShades['300'] , { black: darkFont, white: lightFont })},
+    400:  ${invert(colorShades['400'] , { black: darkFont, white: lightFont })},
+    500:  ${invert(colorShades['500'] , { black: darkFont, white: lightFont })},
+    600:  ${invert(colorShades['600'] , { black: darkFont, white: lightFont })},
+    700:  ${invert(colorShades['700'] , { black: darkFont, white: lightFont })},
+    800:  ${invert(colorShades['800'] , { black: darkFont, white: lightFont })},
+    900:  ${invert(colorShades['900'] , { black: darkFont, white: lightFont })},
+    A100: ${invert(colorShades['A100'], { black: darkFont, white: lightFont })},
+    A200: ${invert(colorShades['A200'], { black: darkFont, white: lightFont })},
+    A400: ${invert(colorShades['A400'], { black: darkFont, white: lightFont })},
+    A700: ${invert(colorShades['A700'], { black: darkFont, white: lightFont })},
   )
 );`
     }).join('')}            `
+  }
+private wrapWithClass(wrapping: string, content: string, shouldWrap: boolean){
+  return `${shouldWrap? `${wrapping}{` : ``}
+${content}
+${shouldWrap? `}` : ``}`;
+}
+  public getScss(param: Options) {
+    const palette = this.buildPalette(param)
+    return this.buildTheme(param, palette, false);
+  }
+
+  private buildTypography(options: Options) {
+    return `
+$typography: mat.define-typography-config(
+${options.typographyLevels.map(level => {
+  return `$${level.name}: mat.define-typography-level(
+  $font-family: ${level.settings.fontFamily},
+  $font-weight: ${level.settings.fontWeight},
+  $font-size: ${level.settings.fontSize},
+  $line-height: ${level.settings.lineHeight},
+  $letter-spacing: ${level.settings.letterSpacing},
+  ),`
+    }).join('')}
+);`;
+  }
+
+  private titleToName(title: string) {
+    return title.toLowerCase().replace(/ /g,"_");
   }
 }

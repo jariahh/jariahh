@@ -2,45 +2,8 @@
   "label": "Home",
   "path": "/",
   "icon": "home"
-},
-  {
-    "label": "Products",
-    "path": "products",
-    "icon": "products",
-    "children": [
-      {
-        "label": "Test 1",
-        "path": "test1",
-        "children": [
-          {
-            "label": "Test 1",
-            "path": "test1"
-          },
-          {
-            "label": "Test 2",
-            "path": "test2"
-          },
-          {
-            "label": "Test 3",
-            "path": "test3"
-          },
-          {
-            "label": "Test 4",
-            "path": "test4"
-          }
-        ]
-      },
-      {
-        "label": "Test 2",
-        "path": "test2"
-      },
-      {
-        "label": "Test 3",
-        "path": "test3"
-      },
-      {
-        "label": "Test 4",
-        "path": "test4"
-      }
-    ]
-  }]
+},{
+  "label": "Buttons",
+  "path": "buttons",
+  "icon": "button"
+}]

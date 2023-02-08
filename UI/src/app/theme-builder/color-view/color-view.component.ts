@@ -1,6 +1,6 @@
 import { Color } from '@angular-material-components/color-picker';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { getContrastYIQ } from './get-contrast-y-i.q';
+import invert from 'invert-color';
 import { shadeColor } from './shade.color';
 
 @Component({
@@ -14,20 +14,20 @@ export class ColorViewComponent implements OnChanges {
   @Input() dark: Color = new Color(0, 0, 0, 1);
 
   colors = [
-    {fontColor: '', name: '50', value: '', lighten: 100},
-    {fontColor: '', name: '100', value: '', lighten: 75},
-    {fontColor: '', name: '200', value: '', lighten: 50},
-    {fontColor: '', name: '300', value: '', lighten: 25},
-    {fontColor: '', name: '400', value: '', lighten: 10},
-    {fontColor: '', name: '500', value: ''},
-    {fontColor: '', name: '600', value: '', lighten: -10},
-    {fontColor: '', name: '700', value: '', lighten: -20},
-    {fontColor: '', name: '800', value: '', lighten: -30},
-    {fontColor: '', name: '900', value: '', lighten: -40},
-    {fontColor: '', name: 'A100', value: '', lighten: 70},
-    {fontColor: '', name: 'A200', value: '', lighten: 55},
-    {fontColor: '', name: 'A400', value: '', lighten: 5},
-    {fontColor: '', name: 'A700', value: '', lighten: -25}];
+    {contrast: '', name: '50', value: '', lighten: 100},
+    {contrast: '', name: '100', value: '', lighten: 75},
+    {contrast: '', name: '200', value: '', lighten: 50},
+    {contrast: '', name: '300', value: '', lighten: 25},
+    {contrast: '', name: '400', value: '', lighten: 10},
+    {contrast: '', name: '500', value: ''},
+    {contrast: '', name: '600', value: '', lighten: -10},
+    {contrast: '', name: '700', value: '', lighten: -20},
+    {contrast: '', name: '800', value: '', lighten: -30},
+    {contrast: '', name: '900', value: '', lighten: -40},
+    {contrast: '', name: 'A100', value: '', lighten: 70},
+    {contrast: '', name: 'A200', value: '', lighten: 55},
+    {contrast: '', name: 'A400', value: '', lighten: 5},
+    {contrast: '', name: 'A700', value: '', lighten: -25}];
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.colors.forEach(c => {
@@ -36,7 +36,7 @@ export class ColorViewComponent implements OnChanges {
       } else {
         c.value = `#${this.color.hex}`;
       }
-      c.fontColor = getContrastYIQ(c.value, `#${this.light.hex}`, `#${this.dark.hex}`);
+      c.contrast = invert(c.value, { black: `#${this.dark.hex}`, white: `#${this.light.hex}` })
     })
     console.log(this.color.hex);
   }

@@ -1,7 +1,7 @@
 <div *ngFor="let c of colors" >
   <div style="height: 1rem; display: flex"
        [style.background-color]="c.value"
-       [style.color]="c.fontColor">
+       [style.color]="c.contrast">
     <div style="flex: 1 1 auto">{{c.name}}</div>
     <div style="text-transform: uppercase">{{c.value}}</div>
   </div>

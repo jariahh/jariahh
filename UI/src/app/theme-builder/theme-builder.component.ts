@@ -1,26 +1,14 @@
 import { Color } from '@angular-material-components/color-picker';
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { ThemePalette } from '@angular/material/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { StyleService } from '../style.service';
-const hexToColor = (hex: string) => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  const rgb = result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : {r: 0, g: 0, b: 0};
-  return new Color(rgb.r, rgb.g, rgb.b, 1)
-}
-export class ThemeColor {
-
-  title: ThemePalette = 'primary';
-  backgroundColor: FormControl = new FormControl('#fff');
-  color: FormControl = new FormControl('#000');
-  isVisible: boolean = false;
-}
+import { Options, StyleService } from '../style.service';
+import defaultTheme from './defaultTheme.json';
+import { hexToColor } from './hex-to.color';
+import { ThemeColor } from './theme.color';
 
 @Component({
   selector: 'app-theme-builder',
@@ -29,78 +17,138 @@ export class ThemeColor {
 })
 export class ThemeBuilderComponent implements AfterViewInit {
   @ViewChild('styleContainer') styleContainer: ElementRef<HTMLDivElement> = {} as any;
+  public typographyLevels: {
+    name: string,
+    settings:{
+      fontFamily?: string,
+      fontWeight?: string,
+      fontSize?: string,
+      lineHeight?: string,
+      letterSpacing?: string,
+    }
+  }[] = [
+    {name: 'headline-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '6rem', fontSize: '6rem'}},
+    {name: 'headline-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '3.75rem', fontSize: '3.75rem'}},
+    {name: 'headline-3', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '3.125rem', fontSize: '3rem'}},
+    {name: 'headline-4', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2.5rem', fontSize: '2.125rem'}},
+    {name: 'headline-5', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '1.5rem'}},
+    {name: 'headline-6', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '1.25rem'}},
+    {name: 'subtitle-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.75rem', fontSize: '1rem'}},
+    {name: 'subtitle-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.375rem', fontSize: '0.875rem'}},
+    {name: 'body-1'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.5rem', fontSize: '1rem'}},
+    {name: 'body-2'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.25rem', fontSize: '0.875rem'}},
+    {name: 'caption'   , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.25rem', fontSize: '0.85rem'}},
+    {name: 'button'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2.25rem', fontSize: '0.875rem'}},
+    {name: 'overline'  , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '0.85rem'}},
+  ];
   public selectedTheme: {
     'title': string;
-    'backgroundColor': FormControl<Color>;
-    'color':  FormControl<Color>;
+    'backgroundColor': FormControl<Color | null>;
+    'color':  FormControl<Color | null>;
   } = {} as any;
+
   public themes = [{
-    'title': 'Light',
-    'backgroundColor': new FormControl(hexToColor('#fafafa')),
-    'color': new FormControl(hexToColor('#000')),
+    title: 'Light',
+    backgroundColor: new FormControl(hexToColor('#fafafa')),
+    color: new FormControl(hexToColor('#000')),
   }, {
-    'title': 'Dark',
-    'backgroundColor': new FormControl(hexToColor('#000')),
-    'color': new FormControl(hexToColor('#fafafa')),
+    title: 'Dark',
+    backgroundColor: new FormControl(hexToColor('#000')),
+    color: new FormControl(hexToColor('#fafafa')),
   }]
   public palettes = [
     {
       title: 'primary',
-      backgroundColor: new FormControl(hexToColor('#3c6fba')),
+      backgroundColor: new FormControl(hexToColor('#54C0E8')),
       color: new FormControl(hexToColor('#fff')),
       isVisible: false
     },
     {
       title: 'accent',
-      backgroundColor: new FormControl(hexToColor('#1d375e')),
+      backgroundColor: new FormControl(hexToColor('#0B3B60')),
       color: new FormControl(hexToColor('#fff')),
       isVisible: false
     },
     {
       title: 'warn',
-      backgroundColor: new FormControl(hexToColor('#ffb400')),
+      backgroundColor: new FormControl(hexToColor('#FFBF3C')),
       color: new FormControl(hexToColor('#333')),
       isVisible: false
     }
   ] as ThemeColor[];
   public isLoading: boolean = false;
   public isSettingsOpen: boolean = false;
+  public darkFont: Color = hexToColor('#000');
+  public lightFont: Color = hexToColor('#fff');
+  public fontFamilies: string[] = [];
 
-  constructor(private styleService: StyleService) { }
+  constructor(private styleService: StyleService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private httpClient: HttpClient) { }
 
 
   public ngAfterViewInit(): void {
     this.isSettingsOpen = sessionStorage.getItem('settingsOpen') === 'true'
     const themeName = sessionStorage.getItem('selectedTheme') ?? 'Light'
+    try {
+      const options = JSON.parse(atob(this.activatedRoute.snapshot.queryParamMap.get('q') ?? '{}')) as Options;
+      if (options.themes) {
+        this.themes = options.themes.map(theme => ({
+          title: theme.title,
+          backgroundColor: new FormControl(hexToColor(theme.backgroundColor)),
+          color: new FormControl(hexToColor(theme.color)),
+        }));
+      }
+      if (options.colors) {
+        this.palettes = options.colors.map(color => ({
+          title: color.title,
+          backgroundColor: new FormControl(hexToColor(color.backgroundColor)),
+          color: new FormControl(hexToColor(color.color)),
+          isVisible: false
+        })) as any;
+      }
+      if (options.typographyLevels) {
+        this.typographyLevels = options.typographyLevels;
+      }
+    } catch {}
     this.selectedTheme = this.themes.find(t => t.title === themeName) as any;
-    // this.updateStyles();
+    this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
+    this.updateLightDark();
+
+    this.setCss(defaultTheme.css);
+    this.updateStyles();
+    this.httpClient.get('https://raw.githubusercontent.com/honeysilvas/google-fonts/dev/json/google-web-font-list-sorted-by-popularity.json')
+      .pipe(tap((webFonts: any) => {
+        this.fontFamilies = webFonts.items.map((i: any) => i.family);
+        console.log(this.fontFamilies);
+      }))
+      .subscribe()
   }
   private updateStyles(){
     this.isLoading = true;
-    const colors = {colors: this.palettes.map(c => ({
-      title: c.title,
-      backgroundColor: `#${c.backgroundColor.value.hex}`,
-      color: `#${c.color.value.hex}`
-    }))};
-      console.log(colors);
+    const colors = this.getOptions();
     this.styleService.getCSS(colors as any).pipe(tap((css: string) => {
-      console.log(css)
-      this.isLoading = false;
-      const styleElement = document.createElement('style');
-      styleElement.appendChild(document.createTextNode(css));
-      this.styleContainer.nativeElement.childNodes.forEach( childrenKey =>  {
-        this.styleContainer.nativeElement.removeChild(childrenKey);
-      });
-      this.styleContainer.nativeElement.append(styleElement);
+      this.setCss(css);
 
     })).subscribe();
-
+  }
+  private setCss(css: string){
+    this.isLoading = false;
+    const styleElement = document.createElement('style');
+    styleElement.appendChild(document.createTextNode(css));
+    this.styleContainer.nativeElement.childNodes.forEach( childrenKey =>  {
+      this.styleContainer.nativeElement.removeChild(childrenKey);
+    });
+    this.styleContainer.nativeElement.append(styleElement);
   }
   debounce: any;
+  public selectThemeClass: string = '';
   public changed() {
     clearTimeout(this.debounce);
     this.debounce = setTimeout(() => {
-    this.updateStyles();
+      this.updateOptions();
+      this.updateStyles();
     }, 100)
   }
 
@@ -111,6 +159,63 @@ export class ThemeBuilderComponent implements AfterViewInit {
 
   public selectTheme($event: MatButtonToggleChange) {
     this.selectedTheme = this.themes.find(t => t.title === $event.value) as any;
+    this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
     sessionStorage.setItem('selectedTheme', this.selectedTheme.title);
+  }
+
+  public colorChange(formControl: FormControl<Color | null>, value: string) {
+    formControl.setValue(hexToColor(value));
+    this.updateLightDark();
+    this.updateOptions();
+  }
+  private getOptions(){
+    return {
+      typographyLevels: this.typographyLevels,
+      themes: this.themes.map(c => ({
+          title: c.title,
+          backgroundColor: `${c.backgroundColor.value}`,
+          color: `${c.color.value}`
+        }
+      )),
+      colors: this.palettes.map(c => ({
+          title: c.title,
+          backgroundColor: `#${c.backgroundColor.value.hex}`,
+          color: `#${c.color.value.hex}`
+        }
+      ))
+    } as Options;
+  }
+  public async getScss() {
+    const colors = this.getOptions();
+    const scss = this.styleService.getScss(colors as any)
+    await window.navigator.clipboard.writeText(scss);
+  }
+
+  private updateLightDark() {
+    this.lightFont = this.themes.find(t => t.title === 'Dark')?.color?.value ?? hexToColor('#fff');
+    this.darkFont = this.themes.find(t => t.title === 'Light')?.color?.value ?? hexToColor('#000');
+  }
+
+  public updateOptions() {
+    const results = this.getOptions();
+    const stringified = JSON.stringify(results);
+    const queryParams: Params = { q: window.btoa(stringified) };
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParams,
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+
+  }
+
+  public addPallet() {
+    this.palettes.push({
+      title: `Pallet ${this.palettes.length - 2}` as any,
+      backgroundColor: new FormControl<Color>(hexToColor('#333')) as any,
+      color: new FormControl<Color>(hexToColor('#333')) as any,
+      isVisible:false
+    })
   }
 }
