@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -16,9 +17,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AgGridModule } from 'ag-grid-angular';
 import { ColorSketchModule } from 'ngx-color/sketch';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ConfirmationModule } from './theme-builder/confirmation/confirmation.module';
+import { DialogInputComponent } from './theme-builder/dialog/dialog-input.component';
 import { ThemeBuilderComponent } from './theme-builder/theme-builder.component';
 import { ThemeViewerComponent } from './theme-viewer/theme-viewer.component';
 import { AppComponent } from './app.component';
@@ -36,6 +40,7 @@ import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.
     HomeComponent,
     ButtonsComponent,
     ColorSwatchComponent,
+    DialogInputComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,10 @@ import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.
     MatInputModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    ConfirmationModule,
+    AgGridModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }

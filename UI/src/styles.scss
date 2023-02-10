@@ -4,4 +4,6 @@ html, body{
   padding: 0;
   height: 100%;
 }
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
 @import 'theme';

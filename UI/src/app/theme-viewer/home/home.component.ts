@@ -1,14 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { tap } from 'rxjs';
+import { ThemeService } from '../../shared/services/theme.service';
+import { Options } from '../../style.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  public theme: Options = new Options();
+  constructor(private themeService: ThemeService) {
+  }
+  public ngOnInit(): void {
 
+    this.themeService.currentTheme$
+      .pipe(tap(theme => {
+        this.theme = theme;
+      }))
+      .subscribe();
+  }
   fillerContent = Array.from(
-    {length: 50},
+    {length: 10},
     () =>
       `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco

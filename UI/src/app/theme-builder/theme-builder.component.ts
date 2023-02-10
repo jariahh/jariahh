@@ -1,14 +1,20 @@
 import { Color } from '@angular-material-components/color-picker';
 import { HttpClient } from '@angular/common/http';
+import { error } from '@angular/compiler-cli/src/transformers/util';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { ColDef, Column, FirstDataRenderedEvent } from 'ag-grid-community';
+import { catchError, of, tap } from 'rxjs';
+import _ from 'underscore';
+import { ThemeService } from '../shared/services/theme.service';
 import { Options, StyleService } from '../style.service';
 import defaultTheme from './defaultTheme.json';
+import { DialogInputComponent } from './dialog/dialog-input.component';
 import { hexToColor } from './hex-to.color';
-import { ThemeColor } from './theme.color';
+import { ThemePalette } from './themePalette';
 
 @Component({
   selector: 'app-theme-builder',
@@ -40,6 +46,35 @@ export class ThemeBuilderComponent implements AfterViewInit {
     {name: 'caption'   , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.25rem', fontSize: '0.85rem'}},
     {name: 'button'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2.25rem', fontSize: '0.875rem'}},
     {name: 'overline'  , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '0.85rem'}},
+  ];
+
+  columnDefs: ColDef[] = [
+    { field: 'name' },
+    {
+      headerName: 'Font Family',
+      field: 'settings.fontFamily',
+      editable: true
+    },
+    {
+      headerName: 'Letter Spacing',
+      field: 'settings.letterSpacing',
+      editable: true
+    },
+    {
+      headerName: 'Font Weight',
+      field: 'settings.fontWeight',
+      editable: true
+    },
+    {
+      headerName: 'Line Height',
+      field: 'settings.lineHeight',
+      editable: true
+    },
+    {
+      headerName: 'Font Size',
+      field: 'settings.fontSize',
+      editable: true
+    },
   ];
   public selectedTheme: {
     'title': string;
@@ -75,17 +110,19 @@ export class ThemeBuilderComponent implements AfterViewInit {
       color: new FormControl(hexToColor('#333')),
       isVisible: false
     }
-  ] as ThemeColor[];
+  ] as ThemePalette[];
   public isLoading: boolean = false;
   public isSettingsOpen: boolean = false;
   public darkFont: Color = hexToColor('#000');
   public lightFont: Color = hexToColor('#fff');
   public fontFamilies: string[] = [];
-
+  public fontWeights = ['thin', 'light', 'regular', 'medium', 'bold', 'black'];
   constructor(private styleService: StyleService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              private httpClient: HttpClient) { }
+              private httpClient: HttpClient,
+              public dialog: MatDialog,
+              public themeService: ThemeService) { }
 
 
   public ngAfterViewInit(): void {
@@ -100,8 +137,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
           color: new FormControl(hexToColor(theme.color)),
         }));
       }
-      if (options.colors) {
-        this.palettes = options.colors.map(color => ({
+      if (options.palettes) {
+        this.palettes = options.palettes.map(color => ({
           title: color.title,
           backgroundColor: new FormControl(hexToColor(color.backgroundColor)),
           color: new FormControl(hexToColor(color.color)),
@@ -123,7 +160,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
         this.fontFamilies = webFonts.items.map((i: any) => i.family);
         console.log(this.fontFamilies);
       }))
-      .subscribe()
+      .subscribe();
+    this.updateOptions();
   }
   private updateStyles(){
     this.isLoading = true;
@@ -177,7 +215,7 @@ export class ThemeBuilderComponent implements AfterViewInit {
           color: `${c.color.value}`
         }
       )),
-      colors: this.palettes.map(c => ({
+      palettes: this.palettes.map(c => ({
           title: c.title,
           backgroundColor: `#${c.backgroundColor.value.hex}`,
           color: `#${c.color.value.hex}`
@@ -198,6 +236,7 @@ export class ThemeBuilderComponent implements AfterViewInit {
 
   public updateOptions() {
     const results = this.getOptions();
+    this.themeService.currentTheme$.next(results);
     const stringified = JSON.stringify(results);
     const queryParams: Params = { q: window.btoa(stringified) };
     this.router.navigate(
@@ -211,11 +250,23 @@ export class ThemeBuilderComponent implements AfterViewInit {
   }
 
   public addPallet() {
-    this.palettes.push({
-      title: `Pallet ${this.palettes.length - 2}` as any,
-      backgroundColor: new FormControl<Color>(hexToColor('#333')) as any,
-      color: new FormControl<Color>(hexToColor('#333')) as any,
-      isVisible:false
-    })
+    const dialogRef = this.dialog.open(DialogInputComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.palettes.push({
+        title: result as any,
+        backgroundColor: new FormControl<Color>(hexToColor('#333')) as any,
+        color: new FormControl<Color>(hexToColor('#333')) as any,
+        isVisible:false
+      })
+    });
+  }
+
+  public removePalette = (palette: ThemePalette) => {
+    this.palettes = _.without(this.palettes, palette);
+  }
+
+  public firstDataRendered(event: FirstDataRenderedEvent<{name: string; settings: {fontFamily?: string; fontWeight?: string; fontSize?: string; lineHeight?: string; letterSpacing?: string}}>) {
+    event.columnApi.autoSizeColumns(event.columnApi.getColumns() as Column[]);
   }
 }

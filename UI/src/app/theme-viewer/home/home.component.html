@@ -1,13 +1,10 @@
-<mat-toolbar color="accent">
-  <mat-toolbar-row>
-    <h1>Header Accent</h1>
-  </mat-toolbar-row>
-</mat-toolbar>
-<mat-toolbar color="warn">
-  <mat-toolbar-row>
-    <h1>Header Warn</h1>
-  </mat-toolbar-row>
-</mat-toolbar>
+<p *ngFor="let palette of theme.palettes">
+  <mat-toolbar color="{{palette.title}}" class="mat-{{palette.title}}">
+    <mat-toolbar-row>
+      <span>Header {{palette.title}}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</p>
 <div style="padding: 1rem">
   <p *ngFor="let content of fillerContent">{{content}}</p>
 </div>

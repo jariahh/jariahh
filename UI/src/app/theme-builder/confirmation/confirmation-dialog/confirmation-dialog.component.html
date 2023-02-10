@@ -1,0 +1,18 @@
+ <div mat-dialog-title>
+    <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon> {{title}}
+  </div>
+  <mat-dialog-content>
+    <span>{{message1}}</span>
+    <div class="message-h2" *ngIf="message2">
+      <span>{{message2}}</span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions *ngIf="!otherOptionLabel" app-modal-footer-right>
+    <button mat-stroked-button  style="float: right" (click)="cancelClicked()">
+      {{cancelButtonLabel}}
+    </button>
+    <button mat-stroked-button color="primary" style="float: right; padding-right: 0.5rem;" (click)="okayClicked()">
+      {{okButtonLabel}}
+    </button>
+  </mat-dialog-actions>
+

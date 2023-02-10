@@ -1,143 +1,131 @@
-<mat-toolbar color="primary" class="mat-elevation-z3">
-<mat-toolbar-row>
-  <h1>Material Theme Generator</h1>
-  <mat-button-toggle-group [value]="selectedTheme.title" style="margin: .5rem;" (change)="selectTheme($event)">
-    <mat-button-toggle *ngFor="let theme of themes" [value]="theme.title">
-      {{theme.title}}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
-  <div style="flex: 1 1 auto"></div>
-  <button (click)="getScss()" mat-stroked-button><mat-icon>download</mat-icon> Get Scss</button>
-</mat-toolbar-row>
-</mat-toolbar>
-<div class="main-container">
-  <div style="flex: 1 1 auto;border-left: 1px solid #cecece;position: absolute;left: 0;top: 0;" class="sealed-container mat-body {{selectThemeClass}}">
-    <div class="loading" *ngIf="isLoading">
-      <div class="text">Loading</div>
-    </div>
-    <div #styleContainer>
-    </div>
-    <div class="mat-typography">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-  <div style="border-bottom: 1px solid #cecece; flex: 1 1 calc(100% - 36px); height: 100%; overflow: auto; position: relative; z-index: 4; background-color: #fff;"
-       *ngIf="isSettingsOpen">
-    <div>
-      <div style="padding: .5rem; display: flex;">
-        <div>Palette</div>
-        <div style="flex: 1 1 auto;"></div>
-        <div>
-          <button mat-stroked-button (click)="addPallet()">Add</button>
+<div class="example-container mat-body {{selectThemeClass}}" [class.example-is-mobile]="true">
+  <div class="mat-typography">
+    <p>
+      <mat-toolbar color="primary" class="example-toolbar mat-elevation-z3">
+        <mat-toolbar-row>
+          <button mat-icon-button (click)="this.toggleSettings();">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <span>Material Theme Generator</span>
+          <mat-button-toggle-group [value]="selectedTheme.title" style="margin: .5rem;" (change)="selectTheme($event)">
+            <mat-button-toggle *ngFor="let theme of themes" [value]="theme.title">
+              {{theme.title}}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+          <span style="flex: 1 1 auto;"></span>
+          <button (click)="getScss()" mat-stroked-button>
+            <mat-icon>download</mat-icon>
+            Get Scss
+          </button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    </p>
+
+    <mat-sidenav-container class="example-sidenav-container"
+                           [style.marginTop.px]="64">
+      <mat-sidenav #snav
+                   [mode]="'side'"
+                   [fixedInViewport]="true"
+                   [opened]="isSettingsOpen"
+                   style="min-width: 200px"
+                   [fixedTopGap]="64">
+        <div style="padding: .5rem">
+          <div>
+            <div style="padding: .5rem; display: flex;">
+              <div>Palette</div>
+              <div style="flex: 1 1 auto;"></div>
+              <div>
+                <button mat-stroked-button (click)="addPallet()">Add</button>
+              </div>
+            </div>
+            <div style="display: flex; width: 600px; overflow: auto; position: relative;">
+              <div class="color-chip" *ngFor="let color of palettes">
+                <div style="display: flex">
+                  <div>{{color.title | titlecase}}</div>
+                  <div style="flex: 1 1 auto"></div>
+                  <button mat-icon-button confirmationMessage="Are you sure you want to delete this palette?" [libConfirmation]="removePalette.bind(this, color)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <input style="display: none" matInput [formControl]="color.backgroundColor">
+                <app-color-swatch [light]="lightFont"
+                                  [dark]="darkFont"
+                                  [swatchHeight]="'60px'"
+                                  [color]="color.backgroundColor.value"
+                                  (colorChange)="colorChange(color.backgroundColor, $event)"></app-color-swatch>
+                <app-color-view [light]="lightFont"
+                                [dark]="darkFont"
+                                [color]="color.backgroundColor.value"></app-color-view>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="padding: .5rem;">Themes</div>
+            <table style="width: 100%" class="theme-table">
+              <thead>
+              <tr>
+                <th></th>
+                <th>Text</th>
+                <th>Background</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let theme of themes">
+                <td>{{theme.title}}</td>
+                <td class="display-value"
+                    [style.background-color]="theme.color.value"
+                    [style.color]="theme.backgroundColor.value">
+                  <input style="display: none"  matInput [formControl]="theme.color">
+                  <app-color-swatch [color]="theme.color.value ?? ''"
+                                    [light]="lightFont"
+                                    [dark]="darkFont"
+                                    (colorChange)="colorChange(theme.color, $event)"></app-color-swatch>
+                </td>
+                <td class="display-value"
+                    [style.background-color]="theme.backgroundColor.value"
+                    [style.color]="theme.color.value">
+                  <input style="display: none"  matInput
+                         [formControl]="theme.backgroundColor">
+                  <app-color-swatch [color]="theme.backgroundColor.value ?? ''"
+                                    [light]="lightFont"
+                                    [dark]="darkFont"
+                                    (colorChange)="colorChange(theme.backgroundColor, $event)"></app-color-swatch>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div style="padding: .5rem;">Typography</div>
+            <ag-grid-angular
+              style="width: 100%; height: 200px;"
+              class="ag-theme-alpine"
+              (firstDataRendered)="firstDataRendered($event)"
+              [rowData]="typographyLevels"
+              [columnDefs]="columnDefs"></ag-grid-angular>
+          </div>
+          <div style="display: flex; padding: 0.5rem 0.5rem 0;">
+            <div style="flex: 1 1 auto"></div>
+            <button style="margin-right: -.5rem" mat-stroked-button (click)="changed()">Update</button>
+          </div>
         </div>
-      </div>
-      <div style="display: flex">
-        <div class="color-chip" *ngFor="let color of palettes">
-          <label class="title-case">{{color.title | titlecase}}</label>
-          <input style="display: none" matInput [formControl]="color.backgroundColor">
-          <app-color-swatch [light]="lightFont"
-                            [dark]="darkFont"
-                            [swatchHeight]="'60px'"
-                            [color]="color.backgroundColor.value"
-                            (colorChange)="colorChange(color.backgroundColor, $event)"></app-color-swatch>
-          <app-color-view [light]="lightFont"
-                          [dark]="darkFont"
-                          [color]="color.backgroundColor.value"></app-color-view>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="main-container">
+          <div style="flex: 1 1 auto;position: absolute;left: 0;top: 0;"
+               class="sealed-container mat-body {{selectThemeClass}}">
+            <div class="mat-typography">
+              <div class="loading" *ngIf="isLoading">
+                <div class="text">Loading</div>
+              </div>
+              <div #styleContainer>
+              </div>
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </div>
-    <div>
-      <div style="padding: .5rem;">Themes</div>
-      <table style="width: 100%" class="theme-table">
-        <thead>
-        <tr>
-          <th></th>
-          <th>Text</th>
-          <th>Background</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let theme of themes">
-          <td>{{theme.title}}</td>
-          <td class="display-value"
-              [style.background-color]="theme.color.value"
-              [style.color]="theme.backgroundColor.value">
-            <input style="display: none"  matInput [formControl]="theme.color">
-            <app-color-swatch [color]="theme.color.value ?? ''"
-                              [light]="lightFont"
-                              [dark]="darkFont"
-                              (colorChange)="colorChange(theme.color, $event)"></app-color-swatch>
-          </td>
-          <td class="display-value"
-              [style.background-color]="theme.backgroundColor.value"
-              [style.color]="theme.color.value">
-            <input style="display: none"  matInput
-                   [formControl]="theme.backgroundColor">
-            <app-color-swatch [color]="theme.backgroundColor.value ?? ''"
-                              [light]="lightFont"
-                              [dark]="darkFont"
-                              (colorChange)="colorChange(theme.backgroundColor, $event)"></app-color-swatch>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <div style="padding: .5rem;">Typography</div>
-      <table style="width: 100%" class="theme-table">
-        <thead>
-        <tr>
-          <th>Type</th>
-          <th>Family</th>
-          <th>Weight</th>
-          <th>Size</th>
-          <th>Height</th>
-          <th>Spacing</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let level of typographyLevels">
-          <td>{{level.name}}</td>
-          <td>
-            <mat-form-field>
-              <mat-select [(ngModel)]="level.settings.fontFamily" (ngModelChange)="updateOptions()">
-                <mat-option *ngFor="let family of fontFamilies" [value]="family">{{family}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field>
-              <mat-select [(ngModel)]="level.settings.fontWeight" (ngModelChange)="updateOptions()">
-                <mat-option *ngFor="let weight of ['thin', 'light', 'regular', 'medium', 'bold', 'black']" [value]="weight">{{weight}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field>
-              <input matInput [(ngModel)]="level.settings.fontSize" (ngModelChange)="updateOptions()"/>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field>
-              <input matInput [(ngModel)]="level.settings.lineHeight" (ngModelChange)="updateOptions()"/>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field>
-              <input matInput [(ngModel)]="level.settings.letterSpacing" (ngModelChange)="updateOptions()"/>
-            </mat-form-field>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <button mat-stroked-button (click)="changed()">Update</button>
-    </div>
-  </div>
-  <div style="flex: 1 0 36px; position: relative; z-index: 4;">
-    <div class="toggleButton">
-      <button mat-button style="margin: 0" (click)="toggleSettings()">View Settings</button>
-    </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   </div>
 </div>
