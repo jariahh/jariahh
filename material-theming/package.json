@@ -1,0 +1,21 @@
+{
+  "name": "@jariahh/material-theming",
+  "version": "15.0.1",
+  "description": "Angular Material Theme Builder Helpers",
+  "private": false,
+  "scripts": {},
+  "keywords": [
+    "angular",
+    "material",
+    "@angular/material",
+    "theming"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/material": "^15.1.4"
+  },
+  "devDependencies": {
+    "@angular/material": "^15.1.4"
+  }
+}

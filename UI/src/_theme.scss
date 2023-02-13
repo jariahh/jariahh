@@ -5,124 +5,12 @@
 @use '@angular/material/core/theming/all-theme';
 @use '@angular/material/core/core';
 @use '@angular/material/core/theming/theming';
-@use '@angular/material/core/typography/all-typography';
 @use '@angular/material/core/typography/typography';
 @use '@angular/material' as mat;
-@use "@angular/material/button/button-theme";
-@use "@angular/material/button/button-theme-private";
-@use "@angular/material/core/mdc-helpers/mdc-helpers";
-@use '@material/theme/theme-color' as mdc-theme-color;
-@use '@material/button/button-text-theme' as mdc-button-text-theme;
-@use '@material/button/button-filled-theme' as mdc-button-filled-theme;
-@use '@material/button/button-protected-theme' as mdc-button-protected-theme;
-@use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+@use '@jariahh/material-theming';
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
-
-
-@mixin _button-variant($color) {
-  @include mdc-button-text-theme.theme((
-    label-text-color: $color,
-  ));
-}
-
-@mixin _unelevated-button-variant($foreground, $background) {
-  @include mdc-button-filled-theme.theme((
-    container-color: $background,
-    label-text-color: $foreground,
-  ));
-}
-
-@mixin _raised-button-variant($foreground, $background) {
-  @include mdc-button-protected-theme.theme((
-    container-color: $background,
-    label-text-color: $foreground,
-  ));
-}
-
-@mixin _outlined-button-variant($color) {
-  @include mdc-button-outlined-theme.theme((
-    label-text-color: $color,
-  ));
-}
-@function is-map($var){
-  @return type-of($var) == 'map';
-}
-@mixin button_color($config-or-theme) {
-  $config: theming.get-color-config($config-or-theme);
-  @include mdc-helpers.using-mdc-theme($config) {
-    $is-dark: map.get($config, is-dark);
-    $colors: map.get($config-or-theme, color);
-    @each $color, $values in $colors {
-      @if(is-map($values)) {
-        @debug #{$color};
-        @debug $values;
-        $contrast: map.get($values, contrast);
-        @if(is-map($contrast)) {
-          $on-surface: map.get($contrast, 500);
-          $surface: map.get($values, 500);
-          $disabled-ink-color: rgba($on-surface, if($is-dark, 0.5, 0.38));
-          $disabled-container-color: rgba($on-surface, 0.12);
-          .mat-mdc-button {
-            &.mat-#{$color} {
-              @include _button-variant($surface);
-            }
-          }
-
-          .mat-mdc-unelevated-button {
-            &.mat-#{$color} {
-              @include _unelevated-button-variant($on-surface, $surface);
-            }
-          }
-
-          .mat-mdc-raised-button {
-            &.mat-#{$color} {
-              @include _raised-button-variant($on-surface, $surface);
-            }
-          }
-
-          .mat-mdc-outlined-button {
-            @include mdc-button-outlined-theme.theme((
-              outline-color: rgba(mdc-theme-color.prop-value(on-surface), 0.12)
-            ));
-
-            &.mat-#{$color} {
-              @include _outlined-button-variant($surface);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@mixin _palette-styles($on-surface, $surface) {
-  background: $surface;
-  color: $on-surface;
-
-}
-@mixin toolbar_color($config-or-theme) {
-  $config: theming.get-color-config($config-or-theme);
-  $is-dark: map.get($config, is-dark);
-  $colors: map.get($config-or-theme, color);
-  @each $color, $values in $colors {
-    @if (is-map($values)) {
-      $contrast: map.get($values, contrast);
-      @if (is-map($contrast)) {
-        $on-surface: map.get($contrast, 500);
-        $surface: map.get($values, 500);
-        .mat-toolbar {
-          &.mat-#{$color} {
-            @include _palette-styles($on-surface, $surface);
-          }
-        }
-      }
-    }
-  }
-}
-
 
 $typography: mat.define-typography-config(
   $headline-1: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 6rem, $line-height: 6rem, $letter-spacing: normal),
@@ -439,8 +327,8 @@ $theme-light: map.deep-merge($theme-light, (
 // Include all theme styles for the components.
 @include all-theme.all-component-themes($theme-light);
 @include typography.typography-hierarchy($theme-light);
-@include button_color($theme-light);
-@include toolbar_color($theme-light);
+@include material-theming.button_color($theme-light);
+@include material-theming.toolbar_color($theme-light);
 
 
 
@@ -470,7 +358,7 @@ $theme-dark: map.deep-merge($theme-dark, (
   // Include all theme styles for the components.
   @include all-theme.all-component-themes($theme-dark);
   @include typography.typography-hierarchy($theme-dark);
-  @include button_color($theme-dark);
-  @include toolbar_color($theme-dark);
+  @include material-theming.button_color($theme-dark);
+  @include material-theming.toolbar_color($theme-dark);
 
 }

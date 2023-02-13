@@ -1,20 +1,18 @@
-import { Color } from '@angular-material-components/color-picker';
 import { HttpClient } from '@angular/common/http';
-import { error } from '@angular/compiler-cli/src/transformers/util';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ColDef, Column, FirstDataRenderedEvent } from 'ag-grid-community';
-import { catchError, of, tap } from 'rxjs';
+import { ColDef, Column, ColumnApi, FirstDataRenderedEvent } from 'ag-grid-community';
+import { Color, HexColor } from 'invert-color';
+import { tap } from 'rxjs';
 import _ from 'underscore';
+import { ThemePalette } from '../shared/models/themePalette';
 import { ThemeService } from '../shared/services/theme.service';
 import { Options, StyleService } from '../style.service';
 import defaultTheme from './defaultTheme.json';
 import { DialogInputComponent } from './dialog/dialog-input.component';
-import { hexToColor } from './hex-to.color';
-import { ThemePalette } from './themePalette';
 
 @Component({
   selector: 'app-theme-builder',
@@ -78,45 +76,46 @@ export class ThemeBuilderComponent implements AfterViewInit {
   ];
   public selectedTheme: {
     'title': string;
-    'backgroundColor': FormControl<Color | null>;
-    'color':  FormControl<Color | null>;
+    'backgroundColor': FormControl<HexColor | null>;
+    'color':  FormControl<HexColor | null>;
   } = {} as any;
 
   public themes = [{
     title: 'Light',
-    backgroundColor: new FormControl(hexToColor('#fafafa')),
-    color: new FormControl(hexToColor('#000')),
+    backgroundColor: new FormControl(('#fafafa')),
+    color: new FormControl(('#000')),
   }, {
     title: 'Dark',
-    backgroundColor: new FormControl(hexToColor('#000')),
-    color: new FormControl(hexToColor('#fafafa')),
+    backgroundColor: new FormControl(('#000')),
+    color: new FormControl(('#fafafa')),
   }]
   public palettes = [
     {
       title: 'primary',
-      backgroundColor: new FormControl(hexToColor('#54C0E8')),
-      color: new FormControl(hexToColor('#fff')),
+      backgroundColor: new FormControl(('#54C0E8')),
+      color: new FormControl(('#fff')),
       isVisible: false
     },
     {
       title: 'accent',
-      backgroundColor: new FormControl(hexToColor('#0B3B60')),
-      color: new FormControl(hexToColor('#fff')),
+      backgroundColor: new FormControl(('#0B3B60')),
+      color: new FormControl(('#fff')),
       isVisible: false
     },
     {
       title: 'warn',
-      backgroundColor: new FormControl(hexToColor('#FFBF3C')),
-      color: new FormControl(hexToColor('#333')),
+      backgroundColor: new FormControl(('#FFBF3C')),
+      color: new FormControl(('#333')),
       isVisible: false
     }
   ] as ThemePalette[];
   public isLoading: boolean = false;
   public isSettingsOpen: boolean = false;
-  public darkFont: Color = hexToColor('#000');
-  public lightFont: Color = hexToColor('#fff');
+  public darkFont: HexColor = '#000';
+  public lightFont: HexColor = '#fff';
   public fontFamilies: string[] = [];
   public fontWeights = ['thin', 'light', 'regular', 'medium', 'bold', 'black'];
+  private gridColumnApi?: ColumnApi;
   constructor(private styleService: StyleService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -133,15 +132,15 @@ export class ThemeBuilderComponent implements AfterViewInit {
       if (options.themes) {
         this.themes = options.themes.map(theme => ({
           title: theme.title,
-          backgroundColor: new FormControl(hexToColor(theme.backgroundColor)),
-          color: new FormControl(hexToColor(theme.color)),
+          backgroundColor: new FormControl((theme.backgroundColor)),
+          color: new FormControl((theme.color)),
         }));
       }
       if (options.palettes) {
         this.palettes = options.palettes.map(color => ({
           title: color.title,
-          backgroundColor: new FormControl(hexToColor(color.backgroundColor)),
-          color: new FormControl(hexToColor(color.color)),
+          backgroundColor: new FormControl((color.backgroundColor)),
+          color: new FormControl((color.color)),
           isVisible: false
         })) as any;
       }
@@ -192,7 +191,10 @@ export class ThemeBuilderComponent implements AfterViewInit {
 
   public toggleSettings() {
     this.isSettingsOpen = !this.isSettingsOpen;
-    sessionStorage.setItem('settingsOpen', this.isSettingsOpen? 'true': 'false')
+    sessionStorage.setItem('settingsOpen', this.isSettingsOpen? 'true': 'false');
+    setTimeout(() => {
+      this.resizeGrid()
+    }, 250);
   }
 
   public selectTheme($event: MatButtonToggleChange) {
@@ -201,8 +203,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
     sessionStorage.setItem('selectedTheme', this.selectedTheme.title);
   }
 
-  public colorChange(formControl: FormControl<Color | null>, value: string) {
-    formControl.setValue(hexToColor(value));
+  public colorChange(formControl: FormControl<string | null>, value: string) {
+    formControl.setValue((value));
     this.updateLightDark();
     this.updateOptions();
   }
@@ -217,8 +219,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
       )),
       palettes: this.palettes.map(c => ({
           title: c.title,
-          backgroundColor: `#${c.backgroundColor.value.hex}`,
-          color: `#${c.color.value.hex}`
+          backgroundColor: `${c.backgroundColor.value}`,
+          color: `${c.color.value}`
         }
       ))
     } as Options;
@@ -230,8 +232,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
   }
 
   private updateLightDark() {
-    this.lightFont = this.themes.find(t => t.title === 'Dark')?.color?.value ?? hexToColor('#fff');
-    this.darkFont = this.themes.find(t => t.title === 'Light')?.color?.value ?? hexToColor('#000');
+    this.lightFont = this.themes.find(t => t.title === 'Dark')?.color?.value ?? ('#fff');
+    this.darkFont = this.themes.find(t => t.title === 'Light')?.color?.value ?? ('#000');
   }
 
   public updateOptions() {
@@ -245,7 +247,7 @@ export class ThemeBuilderComponent implements AfterViewInit {
         relativeTo: this.activatedRoute,
         queryParams: queryParams,
         queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+      }).then();
 
   }
 
@@ -255,8 +257,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
       console.log(result)
       this.palettes.push({
         title: result as any,
-        backgroundColor: new FormControl<Color>(hexToColor('#333')) as any,
-        color: new FormControl<Color>(hexToColor('#333')) as any,
+        backgroundColor: new FormControl<HexColor>('#333') as any,
+        color: new FormControl<HexColor>('#333') as any,
         isVisible:false
       })
     });
@@ -267,6 +269,12 @@ export class ThemeBuilderComponent implements AfterViewInit {
   }
 
   public firstDataRendered(event: FirstDataRenderedEvent<{name: string; settings: {fontFamily?: string; fontWeight?: string; fontSize?: string; lineHeight?: string; letterSpacing?: string}}>) {
-    event.columnApi.autoSizeColumns(event.columnApi.getColumns() as Column[]);
+    this.gridColumnApi = event.columnApi;
+    this.resizeGrid();
+  }
+
+  private resizeGrid() {
+    if(this.gridColumnApi == null) return;
+    this.gridColumnApi.autoSizeColumns(this.gridColumnApi.getColumns() as Column[]);
   }
 }

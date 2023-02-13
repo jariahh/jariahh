@@ -4,3 +4,40 @@
   text-align: center;
   text-transform: uppercase;
 }
+.block{
+  display: block;
+  .app-color-picker{
+    height: 100% !important;
+  }
+  .preview {
+    height: 100% !important;
+    margin: unset !important;
+    box-sizing: border-box !important;
+    background: unset !important;
+    padding: unset !important;
+    box-shadow:unset !important;
+    border-radius: 6px !important;
+    display: block !important;
+  }
+  .preview-background {
+    height: 100% !important;
+    border-radius: 6px !important;
+    display: block !important;
+    .circle{
+      width: 100% !important;
+      border-radius: 0 !important;
+      height: 100% !important;
+    }
+  }
+}
+
+.color-swatch-container {
+  position: relative;
+}
+
+.color-swatch-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

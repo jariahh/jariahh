@@ -1,0 +1,6 @@
+
+@mixin palette-styles($on-surface, $surface) {
+  background: $surface;
+  color: $on-surface;
+
+}

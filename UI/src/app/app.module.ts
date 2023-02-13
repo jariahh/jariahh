@@ -1,8 +1,4 @@
-import {
-  MAT_COLOR_FORMATS,
-  NGX_MAT_COLOR_FORMATS,
-  NgxMatColorPickerModule
-} from '@angular-material-components/color-picker';
+
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AgGridModule } from 'ag-grid-angular';
 import { ColorSketchModule } from 'ngx-color/sketch';
+import { NgxColorsModule } from 'ngx-colors';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ConfirmationModule } from './theme-builder/confirmation/confirmation.module';
@@ -60,10 +57,8 @@ import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.
     MatSelectModule,
     MatDialogModule,
     ConfirmationModule,
-    AgGridModule
-  ],
-  providers: [
-    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
+    AgGridModule,
+    NgxColorsModule
   ],
   bootstrap: [AppComponent]
 })

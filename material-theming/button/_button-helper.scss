@@ -1,0 +1,29 @@
+@use '@material/button/button-text-theme' as mdc-button-text-theme;
+@use '@material/button/button-filled-theme' as mdc-button-filled-theme;
+@use '@material/button/button-protected-theme' as mdc-button-protected-theme;
+@use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+@mixin button-variant($color) {
+  @include mdc-button-text-theme.theme((
+          label-text-color: $color,
+  ));
+}
+
+@mixin unelevated-button-variant($foreground, $background) {
+  @include mdc-button-filled-theme.theme((
+          container-color: $background,
+          label-text-color: $foreground,
+  ));
+}
+
+@mixin raised-button-variant($foreground, $background) {
+  @include mdc-button-protected-theme.theme((
+          container-color: $background,
+          label-text-color: $foreground,
+  ));
+}
+
+@mixin outlined-button-variant($color) {
+  @include mdc-button-outlined-theme.theme((
+          label-text-color: $color,
+  ));
+}

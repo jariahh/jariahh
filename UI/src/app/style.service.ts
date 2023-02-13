@@ -2,10 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import invert from 'invert-color';
 import { catchError, of, Subject, tap } from 'rxjs';
-import { shadeColor } from './theme-builder/color-view/shade.color';
+import { Palette } from './shared/models/palette';
+import { ColorService } from './shared/services/color.service';
 import _ from 'underscore';
-import { Palette } from './theme-builder/palette';
-import { ThemePalette } from './theme-builder/themePalette';
 export class Options {
   typographyLevels: {
     name: string,
@@ -33,7 +32,8 @@ export class Options {
 })
 export class StyleService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private colorService: ColorService) {
   }
   request: any = null;
   public getCSS(param: Options) {
@@ -58,12 +58,8 @@ export class StyleService {
 //Visit the following link to update the theme
 //${window.location.href}
 @use 'sass:map';
-@use '@angular/material/core/theming/all-theme';
-@use '@angular/material/core/core';
-@use '@angular/material/core/theming/theming';
-@use '@angular/material/core/typography/all-typography';
-@use '@angular/material/core/typography/typography';
 @use '@angular/material' as mat;
+@use '@angular/material/core/theming/theming';
 @use "@angular/material/button/button-theme";
 @use "@angular/material/button/button-theme-private";
 @use "@angular/material/core/mdc-helpers/mdc-helpers";
@@ -72,14 +68,12 @@ export class StyleService {
 @use '@material/button/button-filled-theme' as mdc-button-filled-theme;
 @use '@material/button/button-protected-theme' as mdc-button-protected-theme;
 @use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+@use '@jariahh/material-theming';
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 ${_.uniq(options.typographyLevels, (l: any) => l.settings.fontFamily).map((level) => {
-  return `
-@import url('https://fonts.googleapis.com/css2?family=${level.settings.fontFamily}:wght@300;400;500&display=swap');
-`
-    }).join('')}
-${this.getMixins()}
+  return `@import url('https://fonts.googleapis.com/css2?family=${level.settings.fontFamily}:wght@300;400;500&display=swap');`
+    }).join('\n')}
 ${this.buildTypography(options)}
 ${palette}
 ${this.getOption(options)}
@@ -110,38 +104,30 @@ $theme-${theme.title.toLowerCase()}: map.deep-merge($theme-${theme.title.toLower
     'background': $${this.titleToName(theme.title)}-theme-background-palette,
     'foreground': $${this.titleToName(theme.title)}-theme-foreground-palette,
   )
-));
+));`;
+}).join('')
+}
+
+@mixin theme() {
 ${
-  this.wrapWithClass('.sealed-container', `
+      options.themes.map(theme => { return `${
+        this.wrapWithClass('.sealed-container', `
 ${
-    this.wrapWithClass(`${wrapText? '&': ''}.${this.titleToName(theme.title)}-theme`, `
+          this.wrapWithClass(`${wrapText? '&': ''}.${this.titleToName(theme.title)}-theme`, `
   // Include all theme styles for the components.
   @include all-theme.all-component-themes($theme-${this.titleToName(theme.title)});
   @include typography.typography-hierarchy($theme-${this.titleToName(theme.title)});
   @include button_color($theme-${this.titleToName(theme.title)});
   @include toolbar_color($theme-${this.titleToName(theme.title)});
     `, theme.title !== 'Light')
-}`, wrapText)
-}`;
-}).join('')
+        }`, wrapText)
+      }`;
+      }).join('')
+    }
 }`;
   }
   private buildPalette(color: Palette, lightFont: string, darkFont: string){
-    const colorShades = {50: shadeColor(color.backgroundColor, 100),
-      100: shadeColor(color.backgroundColor, 75),
-      200: shadeColor(color.backgroundColor, 50),
-      300: shadeColor(color.backgroundColor, 25),
-      400: shadeColor(color.backgroundColor, 10),
-      500: color.backgroundColor,
-      600: shadeColor(color.backgroundColor, -10),
-      700: shadeColor(color.backgroundColor, -20),
-      800: shadeColor(color.backgroundColor, -30),
-      900: shadeColor(color.backgroundColor, -40),
-      A100:shadeColor(color.backgroundColor, 70),
-      A200:shadeColor(color.backgroundColor, 55),
-      A400:shadeColor(color.backgroundColor, 5),
-      A700:shadeColor(color.backgroundColor, -25)
-    };
+    const colorShades = this.colorService.getColorObject(color.backgroundColor);
     return `$${this.titleToName(color.title)}-palette: (
     50:   ${colorShades['50']  },
     100:  ${colorShades['100'] },
@@ -271,110 +257,5 @@ $${this.titleToName(theme.title)}-theme-foreground-palette: (
   slider-off-active: rgba($${this.titleToName(theme.title)}-theme-contrast, 0.38),
 );`
     }).join('')
-  }
-
-  private getMixins() {
-    return `
-@mixin _button-variant($color) {
-  @include mdc-button-text-theme.theme((
-    label-text-color: $color,
-  ));
-}
-
-@mixin _unelevated-button-variant($foreground, $background) {
-  @include mdc-button-filled-theme.theme((
-    container-color: $background,
-    label-text-color: $foreground,
-  ));
-}
-
-@mixin _raised-button-variant($foreground, $background) {
-  @include mdc-button-protected-theme.theme((
-    container-color: $background,
-    label-text-color: $foreground,
-  ));
-}
-
-@mixin _outlined-button-variant($color) {
-  @include mdc-button-outlined-theme.theme((
-    label-text-color: $color,
-  ));
-}
-@function is-map($var){
-  @return type-of($var) == 'map';
-}
-@mixin button_color($config-or-theme) {
-  $config: theming.get-color-config($config-or-theme);
-  @include mdc-helpers.using-mdc-theme($config) {
-    $is-dark: map.get($config, is-dark);
-    $colors: map.get($config-or-theme, color);
-    @each $color, $values in $colors {
-      @if(is-map($values)) {
-        @debug #{$color};
-        @debug $values;
-        $contrast: map.get($values, contrast);
-        @if(is-map($contrast)) {
-          $on-surface: map.get($contrast, 500);
-          $surface: map.get($values, 500);
-          $disabled-ink-color: rgba($on-surface, if($is-dark, 0.5, 0.38));
-          $disabled-container-color: rgba($on-surface, 0.12);
-          .mat-mdc-button {
-            &.mat-#{$color} {
-              @include _button-variant($surface);
-            }
-          }
-
-          .mat-mdc-unelevated-button {
-            &.mat-#{$color} {
-              @include _unelevated-button-variant($on-surface, $surface);
-            }
-          }
-
-          .mat-mdc-raised-button {
-            &.mat-#{$color} {
-              @include _raised-button-variant($on-surface, $surface);
-            }
-          }
-
-          .mat-mdc-outlined-button {
-            @include mdc-button-outlined-theme.theme((
-              outline-color: rgba(mdc-theme-color.prop-value(on-surface), 0.12)
-            ));
-
-            &.mat-#{$color} {
-              @include _outlined-button-variant($surface);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@mixin _palette-styles($on-surface, $surface) {
-  background: $surface;
-  color: $on-surface;
-
-}
-@mixin toolbar_color($config-or-theme) {
-  $config: theming.get-color-config($config-or-theme);
-  $is-dark: map.get($config, is-dark);
-  $colors: map.get($config-or-theme, color);
-  @each $color, $values in $colors {
-    @if (is-map($values)) {
-      $contrast: map.get($values, contrast);
-      @if (is-map($contrast)) {
-        $on-surface: map.get($contrast, 500);
-        $surface: map.get($values, 500);
-        .mat-toolbar {
-          &.mat-#{$color} {
-            @include _palette-styles($on-surface, $surface);
-          }
-        }
-      }
-    }
-  }
-}
-`;
   }
 }
