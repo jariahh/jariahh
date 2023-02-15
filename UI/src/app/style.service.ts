@@ -60,6 +60,7 @@ export class StyleService {
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use '@angular/material/core/theming/theming';
+@use '@angular/material/core/theming/all-theme';
 @use "@angular/material/button/button-theme";
 @use "@angular/material/button/button-theme-private";
 @use "@angular/material/core/mdc-helpers/mdc-helpers";
@@ -78,7 +79,7 @@ ${this.buildTypography(options)}
 ${palette}
 ${this.getOption(options)}
 // Include non-theme styles for core.
-@include core.core();
+@include mat.core();
 
 // Define a theme.
 ${options.palettes.map(color => {
@@ -116,15 +117,16 @@ ${
           this.wrapWithClass(`${wrapText? '&': ''}.${this.titleToName(theme.title)}-theme`, `
   // Include all theme styles for the components.
   @include all-theme.all-component-themes($theme-${this.titleToName(theme.title)});
-  @include typography.typography-hierarchy($theme-${this.titleToName(theme.title)});
-  @include button_color($theme-${this.titleToName(theme.title)});
-  @include toolbar_color($theme-${this.titleToName(theme.title)});
+  @include mat.typography-hierarchy($theme-${this.titleToName(theme.title)});
+  @include material-theming.button_color($theme-${this.titleToName(theme.title)});
+  @include material-theming.toolbar_color($theme-${this.titleToName(theme.title)});
     `, theme.title !== 'Light')
         }`, wrapText)
       }`;
       }).join('')
     }
-}`;
+}
+${wrapText? '@include theme()': ''}`;
   }
   private buildPalette(color: Palette, lightFont: string, darkFont: string){
     const colorShades = this.colorService.getColorObject(color.backgroundColor);
