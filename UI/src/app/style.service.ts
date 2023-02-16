@@ -45,7 +45,7 @@ export class StyleService {
       .set('Content-Type', 'application/json');
     if (this.request)
       this.request.unsubscribe();
-    this.request = this.httpClient.post<any>('api/', {styles: theme}, {headers})
+    this.request = this.httpClient.post<any>('api/', {scss: theme}, {headers})
       .pipe(tap((result: any) => {
         console.log(result);
         this.request = null;
