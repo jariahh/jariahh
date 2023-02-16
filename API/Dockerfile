@@ -22,7 +22,7 @@ RUN dart compile exe bin/server.dart -o bin/server
 FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
-COPY --from=build /app/bin/web /app/bin/web/
+COPY --from=build /app/bin/web /app/bin/web
 COPY --from=nodePackages /app/node_modules /app/bin/node_modules
 
 # Start server.
