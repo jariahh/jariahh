@@ -8,8 +8,8 @@ Future<void> main() async {
   await handleRequests(server);
 }
 Future<HttpServer> createServer() async {
-  final address = InternetAddress.loopbackIPv4;
-  const port = 80;
+  final address = '0.0.0.0';
+  const port = 8080;
   return await HttpServer.bind(address, port);
 }
 Future<void> handleRequests(HttpServer server) async {
