@@ -25,5 +25,5 @@ COPY --from=build /app/bin/server /app/bin/
 COPY --from=nodePackages /app/node_modules /app/bin/node_modules
 
 # Start server.
-EXPOSE 8080
+EXPOSE 80
 CMD ["/app/bin/server"]
