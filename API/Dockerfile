@@ -21,7 +21,8 @@ RUN dart compile exe bin/server.dart -o bin/server
 # libraries and configuration files stored in `/runtime/` from the build stage.
 FROM scratch
 COPY --from=build /runtime/ /
-COPY --from=build /app/bin/ /app/bin/
+COPY --from=build /app/bin/server /app/bin/
+COPY --from=build /app/bin/web /app/bin/
 COPY --from=nodePackages /app/node_modules /app/bin/node_modules
 
 # Start server.
