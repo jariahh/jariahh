@@ -10,7 +10,7 @@
     event.preventDefault();
     const postBody = JSON.stringify({scss: $('scss').value});
     const xhr = new XMLHttpRequest();
-    xhr.open('POST','/', true)
+    xhr.open('POST','./', true)
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(postBody);
     xhr.onreadystatechange = function() {
