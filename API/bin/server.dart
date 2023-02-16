@@ -40,7 +40,8 @@ Future<void> handlePost(HttpRequest request) async {
   var postedScss = result['scss'];
   sass.compileStringToResultAsync(postedScss, loadPaths: ["./node_modules/"]).then((value) => {
     request.response
-    ..write(value.css)
+    ..headers.add(HttpHeaders.contentTypeHeader, 'application/json')
+    ..write('{"css": "${value.css}" }')
     ..close()
   }).catchError((onError) => {
     request.response
