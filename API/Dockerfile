@@ -26,6 +26,6 @@ COPY --from=build /app/bin/web /app/bin/web
 COPY --from=nodePackages /app/node_modules /app/bin/node_modules
 RUN ls /app/bin
 # Start server.
-EXPOSE 80
+EXPOSE 8080
 WORKDIR /app/bin
 CMD ["./server"]
