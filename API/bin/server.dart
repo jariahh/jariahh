@@ -39,10 +39,7 @@ Future<void> handlePost(HttpRequest request) async {
   Map result = json.decode(await utf8.decoder.bind(request).join());
   var postedScss = result['scss'];
   sass.compileStringToResultAsync(postedScss, loadPaths: ["./node_modules/"]).then((value) => {
-    request.response
-    ..headers.add(HttpHeaders.contentTypeHeader, 'application/json')
-    ..write('{"css": "${value.css}" }')
-    ..close()
+    handleSass(request, value.css)
   }).catchError((onError) => {
     request.response
       ..write(onError.toString())
@@ -53,5 +50,14 @@ void handleDefault(HttpRequest request) {
   request.response
     ..statusCode = HttpStatus.methodNotAllowed
     ..write('Unsupported request: ${request.method}.')
+    ..close();
+}
+void handleSass(HttpRequest request, css) {
+  Map jsonMap = {
+    "css": css
+  };
+  request.response
+    ..headers.add(HttpHeaders.contentTypeHeader, 'application/json')
+    ..write(json.encode(jsonMap))
     ..close();
 }
