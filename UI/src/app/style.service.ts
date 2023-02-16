@@ -50,7 +50,11 @@ export class StyleService {
         console.log(result);
         this.request = null;
         sub.next(result.css)
-      }), catchError(error => {sub.next(''); return of()})).subscribe();
+      }), catchError(error => {
+        sub.next('');
+        console.log(error);
+        return of()
+      })).subscribe();
     return sub;
   }
   private buildTheme(options: Options, palette: string, wrapText = true) {
