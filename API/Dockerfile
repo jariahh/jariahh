@@ -19,12 +19,13 @@ RUN dart compile exe bin/server.dart -o bin/server
 
 # Build minimal serving image from AOT-compiled `/server` and required system
 # libraries and configuration files stored in `/runtime/` from the build stage.
-FROM scratch
+FROM alpine:3.14
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
 COPY --from=build /app/bin/web /app/bin/web
 COPY --from=nodePackages /app/node_modules /app/bin/node_modules
-
+RUN ls /app/bin
 # Start server.
 EXPOSE 80
-CMD ["/app/bin/server"]
+WORKDIR /app/bin
+CMD ["./server"]
