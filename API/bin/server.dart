@@ -27,7 +27,7 @@ Future<void> handleRequests(HttpServer server) async {
   }
 }
 void handleGet(HttpRequest request) {
-  new File("./index.html").readAsString()
+  new File("../index.html").readAsString()
       .then((value) =>
   request.response
     ..headers.add(HttpHeaders.contentTypeHeader, 'text/html')
