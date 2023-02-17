@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ThemeBuilderComponent } from './theme-builder/theme-builder.component';
 import { ButtonsComponent } from './theme-viewer/buttons/buttons.component';
 import { CheckboxComponent } from './theme-viewer/checkbox/checkbox.component';
+import { ChipsComponent } from './theme-viewer/chips/chips.component';
 import { HomeComponent } from './theme-viewer/home/home.component';
 import { ThemeViewerComponent } from './theme-viewer/theme-viewer.component';
 import { ToolbarComponent } from './theme-viewer/toolbar/toolbar.component';
@@ -30,6 +31,10 @@ const routes: Routes = [{
         {
           path: 'checkbox',
           component: CheckboxComponent,
+        },
+        {
+          path: 'chip',
+          component: ChipsComponent,
         }
       ]
     }

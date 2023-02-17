@@ -6,9 +6,12 @@
   "label": "Toolbar",
   "path": "toolbar"
 },{
-  "label": "Buttons",
+  "label": "Button",
   "path": "buttons"
 },{
   "label": "Checkbox",
   "path": "checkbox"
+},{
+  "label": "Chip",
+  "path": "chip"
 }]

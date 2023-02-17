@@ -1,5 +1,7 @@
 <p *ngFor="let palette of theme.palettes">
-  <mat-checkbox color="{{palette.title | lowercase | replaceSpaceWithDash}}">
+  <mat-checkbox color="{{palette.title | lowercase | replaceSpaceWithDash}}"
+                [checked]="true"
+  >
     {{palette.title}}
   </mat-checkbox>
 </p>
