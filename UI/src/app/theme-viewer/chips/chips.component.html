@@ -1,0 +1,5 @@
+<mat-chip-listbox aria-label="Fish selection">
+  <mat-chip-option>Default Chip</mat-chip-option>
+  <mat-chip-option *ngFor="let palette of theme.palettes" color="{{palette.title | lowercase | replaceSpaceWithDash}}"
+                   selected>{{palette.title}} Chip</mat-chip-option>
+</mat-chip-listbox>
