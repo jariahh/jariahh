@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dart:run": "dart server.dart"
+    "dart:run": "dart server.dart",
+    "updateMaterial": "npm install @jariahh/material-theming@latest --save"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@angular/material": "^15.1.4",
-    "@jariahh/material-theming": "^15.0.5"
+    "@jariahh/material-theming": "^15.0.14"
   }
 }
