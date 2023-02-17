@@ -3,7 +3,12 @@
   "path": "/",
   "icon": "home"
 },{
+  "label": "Toolbar",
+  "path": "toolbar"
+},{
   "label": "Buttons",
-  "path": "buttons",
-  "icon": "button"
+  "path": "buttons"
+},{
+  "label": "Checkbox",
+  "path": "checkbox"
 }]

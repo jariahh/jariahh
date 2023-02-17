@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -28,6 +29,8 @@ import { HomeComponent } from './theme-viewer/home/home.component';
 import { ButtonsComponent } from './theme-viewer/buttons/buttons.component';
 import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.component';
 import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe';
+import { ToolbarComponent } from './theme-viewer/toolbar/toolbar.component';
+import { CheckboxComponent } from './theme-viewer/checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe'
     ButtonsComponent,
     ColorSwatchComponent,
     DialogInputComponent,
-    ReplaceSpaceWithDashPipe
+    ReplaceSpaceWithDashPipe,
+    ToolbarComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,8 @@ import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe'
     MatDialogModule,
     ConfirmationModule,
     AgGridModule,
-    NgxColorsModule
+    NgxColorsModule,
+    MatCheckboxModule
   ],
   bootstrap: [AppComponent]
 })

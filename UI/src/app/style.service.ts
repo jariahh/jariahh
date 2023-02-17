@@ -122,8 +122,7 @@ ${
   // Include all theme styles for the components.
   @include all-theme.all-component-themes($theme-${this.titleToName(theme.title)});
   @include mat.typography-hierarchy($theme-${this.titleToName(theme.title)});
-  @include material-theming.button_color($theme-${this.titleToName(theme.title)});
-  @include material-theming.toolbar_color($theme-${this.titleToName(theme.title)});
+  @include material-theming.all-theme($theme-${this.titleToName(theme.title)});
     `, theme.title !== 'Light')
         }`, wrapText)
       }`;
