@@ -52,6 +52,13 @@
               --mdc-icon-button-icon-color: #{$on-surface};
             }
           }
+          .mat-mdc-fab, .mat-mdc-mini-fab {
+            &.mat-primary {
+              --mdc-fab-container-color: #{$surface};
+              --mdc-fab-icon-color: #{$on-surface};
+              --mat-mdc-fab-color: #{$on-surface};
+            }
+          }
         }
       }
     }
