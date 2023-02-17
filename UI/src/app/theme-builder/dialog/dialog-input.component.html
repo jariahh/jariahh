@@ -4,6 +4,7 @@
     <mat-label>Palette Name</mat-label>
     <input matInput [(ngModel)]="newName">
   </mat-form-field>
+  <div>ClassName: {{newName | lowercase | replaceSpaceWithDash}}</div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

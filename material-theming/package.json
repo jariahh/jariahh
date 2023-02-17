@@ -1,9 +1,11 @@
 {
   "name": "@jariahh/material-theming",
-  "version": "15.0.3",
+  "version": "15.0.5",
   "description": "Angular Material Theme Builder Helpers",
   "private": false,
-  "scripts": {},
+  "scripts": {
+    "publish": "npm version patch && npm publish"
+  },
   "keywords": [
     "angular",
     "material",

@@ -27,6 +27,7 @@ import { ColorViewComponent } from './theme-builder/color-view/color-view.compon
 import { HomeComponent } from './theme-viewer/home/home.component';
 import { ButtonsComponent } from './theme-viewer/buttons/buttons.component';
 import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.component';
+import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.
     HomeComponent,
     ButtonsComponent,
     ColorSwatchComponent,
-    DialogInputComponent
+    DialogInputComponent,
+    ReplaceSpaceWithDashPipe
   ],
   imports: [
     BrowserModule,

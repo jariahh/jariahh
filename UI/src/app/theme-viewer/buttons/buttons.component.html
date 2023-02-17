@@ -1,4 +1,4 @@
-<div style="padding: 1rem;">
+<div style="padding: 1rem;" *ngIf="loadedIcons">
   <section>
     <div class="example-label">Basic</div>
     <div class="example-button-row">
@@ -13,7 +13,7 @@
     <div class="example-label">Raised</div>
     <div class="example-button-row">
       <button mat-raised-button>Basic</button>
-      <button *ngFor="let palette of theme.palettes" mat-raised-button color="{{palette.title}}" style="text-transform: capitalize">{{palette.title}}</button>
+      <button *ngFor="let palette of theme.palettes" mat-raised-button color="{{palette.title | lowercase | replaceSpaceWithDash}}" style="text-transform: capitalize">{{palette.title}}</button>
       <button mat-raised-button disabled>Disabled</button>
       <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a>
     </div>
@@ -23,7 +23,7 @@
     <div class="example-label">Stroked</div>
     <div class="example-button-row">
       <button mat-stroked-button>Basic</button>
-      <button *ngFor="let palette of theme.palettes" mat-stroked-button color="{{palette.title}}" style="text-transform: capitalize">{{palette.title}}</button>
+      <button *ngFor="let palette of theme.palettes" mat-stroked-button color="{{palette.title | lowercase | replaceSpaceWithDash}}" style="text-transform: capitalize">{{palette.title}}</button>
       <button mat-stroked-button disabled>Disabled</button>
       <a mat-stroked-button href="https://www.google.com/" target="_blank">Link</a>
     </div>
@@ -33,7 +33,7 @@
     <div class="example-label">Flat</div>
     <div class="example-button-row">
       <button mat-flat-button>Basic</button>
-      <button *ngFor="let palette of theme.palettes" mat-flat-button color="{{palette.title}}" style="text-transform: capitalize">{{palette.title}}</button>
+      <button *ngFor="let palette of theme.palettes" mat-flat-button color="{{palette.title | lowercase | replaceSpaceWithDash}}" style="text-transform: capitalize">{{palette.title}}</button>
       <button mat-flat-button disabled>Disabled</button>
       <a mat-flat-button href="https://www.google.com/" target="_blank">Link</a>
     </div>
@@ -46,14 +46,10 @@
         <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
           <mat-icon>more_vert</mat-icon>
         </button>
-        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-          <mat-icon>home</mat-icon>
-        </button>
-        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-          <mat-icon>favorite</mat-icon>
+        <button *ngFor="let palette of theme.palettes; let i = index;"
+                mat-icon-button color="{{palette.title | lowercase | replaceSpaceWithDash}}"
+                [attr.aria-label]="'Example icon button with a ' + iconNames[i] + ' icon'">
+          <mat-icon>{{iconNames[i]}}</mat-icon>
         </button>
         <button mat-icon-button disabled aria-label="Example icon button with a open in new tab icon">
           <mat-icon>open_in_new</mat-icon>

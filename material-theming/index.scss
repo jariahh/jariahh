@@ -47,6 +47,11 @@
               @include button-helper.outlined-button-variant($surface);
             }
           }
+          .mat-mdc-icon-button {
+            .mat-#{$color} {
+              --mdc-icon-button-icon-color: $on-surface;
+            }
+          }
         }
       }
     }

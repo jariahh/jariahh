@@ -38,7 +38,7 @@
                 <button mat-stroked-button (click)="addPallet()">Add</button>
               </div>
             </div>
-            <div style="display: flex; width: 600px; overflow: auto; position: relative;">
+            <div style="display: flex; width: 600px; overflow: auto; position: relative; box-sizing: border-box;">
               <div class="color-chip" *ngFor="let color of palettes">
                 <div style="display: flex">
                   <div>{{color.title | titlecase}}</div>
@@ -98,15 +98,11 @@
           <div>
             <div style="padding: .5rem;">Typography</div>
             <ag-grid-angular
-              style="width: 100%; height: 200px;"
+              style="width: 100%; height: 240px;"
               class="ag-theme-alpine"
               (firstDataRendered)="firstDataRendered($event)"
               [rowData]="typographyLevels"
               [columnDefs]="columnDefs"></ag-grid-angular>
-          </div>
-          <div style="display: flex; padding: 0.5rem 0.5rem 0;">
-            <div style="flex: 1 1 auto"></div>
-            <button style="margin-right: -.5rem" mat-stroked-button (click)="changed()">Update</button>
           </div>
         </div>
       </mat-sidenav>

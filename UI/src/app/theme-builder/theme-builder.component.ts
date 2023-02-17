@@ -154,13 +154,13 @@ export class ThemeBuilderComponent implements AfterViewInit {
 
     this.setCss(defaultTheme.css);
     this.updateStyles();
-    this.httpClient.get('https://raw.githubusercontent.com/honeysilvas/google-fonts/dev/json/google-web-font-list-sorted-by-popularity.json')
-      .pipe(tap((webFonts: any) => {
-        this.fontFamilies = webFonts.items.map((i: any) => i.family);
-        console.log(this.fontFamilies);
-      }))
-      .subscribe();
-    this.updateOptions();
+    // this.httpClient.get('https://raw.githubusercontent.com/honeysilvas/google-fonts/dev/json/google-web-font-list-sorted-by-popularity.json')
+    //   .pipe(tap((webFonts: any) => {
+    //     this.fontFamilies = webFonts.items.map((i: any) => i.family);
+    //     console.log(this.fontFamilies);
+    //   }))
+    //   .subscribe();
+    //this.updateOptions();
   }
   private updateStyles(){
     this.isLoading = true;
@@ -206,7 +206,8 @@ export class ThemeBuilderComponent implements AfterViewInit {
   public colorChange(formControl: FormControl<string | null>, value: string) {
     formControl.setValue((value));
     this.updateLightDark();
-    this.updateOptions();
+    // this.updateOptions();
+    this.changed();
   }
   private getOptions(){
     return {
