@@ -2,6 +2,7 @@
 @use '@material/button/button-filled-theme' as mdc-button-filled-theme;
 @use '@material/button/button-protected-theme' as mdc-button-protected-theme;
 @use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+
 @mixin button-variant($color) {
   @include mdc-button-text-theme.theme((
           label-text-color: $color,

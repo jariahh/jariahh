@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dart:run": "dart server.dart",
-    "updateMaterial": "npm install @jariahh/material-theming@latest --save"
+    "updateMaterial": "npm install @jariahh/material-theming --save"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@angular/material": "^15.1.4",
-    "@jariahh/material-theming": "^15.0.16"
+    "@jariahh/material-theming": "^15.0.19"
   }
 }
