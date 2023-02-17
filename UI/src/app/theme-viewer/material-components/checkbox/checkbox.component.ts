@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { tap } from 'rxjs';
-import { ThemeService } from '../../shared/services/theme.service';
-import { Options } from '../../style.service';
+import { ThemeService } from '../../../shared/services/theme.service';
+import { Options } from '../../../style.service';
 
 @Component({
-  selector: 'app-chips',
-  templateUrl: './chips.component.html',
-  styleUrls: ['./chips.component.scss']
+  selector: 'app-checkbox',
+  templateUrl: './checkbox.component.html',
+  styleUrls: ['./checkbox.component.scss']
 })
-export class ChipsComponent  implements OnInit{
+export class CheckboxComponent  implements OnInit{
   public theme: Options = new Options();
   constructor(private themeService: ThemeService) {
   }

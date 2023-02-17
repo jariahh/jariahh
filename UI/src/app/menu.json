@@ -14,4 +14,7 @@
 },{
   "label": "Chip",
   "path": "chip"
+},{
+  "label": "Progress Bar",
+  "path": "progress-bar"
 }]

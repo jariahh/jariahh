@@ -1,0 +1,4 @@
+<p *ngFor="let palette of theme.palettes">
+  <mat-progress-bar color="{{palette.title | lowercase | replaceSpaceWithDash}}"
+                    mode="indeterminate" value="40"></mat-progress-bar>
+</p>

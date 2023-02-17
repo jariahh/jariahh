@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,16 +24,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { ConfirmationModule } from './theme-builder/confirmation/confirmation.module';
 import { DialogInputComponent } from './theme-builder/dialog/dialog-input.component';
 import { ThemeBuilderComponent } from './theme-builder/theme-builder.component';
+import { ButtonsComponent } from './theme-viewer/material-components/buttons/buttons.component';
+import { CheckboxComponent } from './theme-viewer/material-components/checkbox/checkbox.component';
+import { ChipsComponent } from './theme-viewer/material-components/chips/chips.component';
+import { ToolbarComponent } from './theme-viewer/material-components/toolbar/toolbar.component';
 import { ThemeViewerComponent } from './theme-viewer/theme-viewer.component';
 import { AppComponent } from './app.component';
 import { ColorViewComponent } from './theme-builder/color-view/color-view.component';
 import { HomeComponent } from './theme-viewer/home/home.component';
-import { ButtonsComponent } from './theme-viewer/buttons/buttons.component';
 import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.component';
 import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe';
-import { ToolbarComponent } from './theme-viewer/toolbar/toolbar.component';
-import { CheckboxComponent } from './theme-viewer/checkbox/checkbox.component';
-import { ChipsComponent } from './theme-viewer/chips/chips.component';
+import { ProgressBarComponent } from './theme-viewer/material-components/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { ChipsComponent } from './theme-viewer/chips/chips.component';
     ReplaceSpaceWithDashPipe,
     ToolbarComponent,
     CheckboxComponent,
-    ChipsComponent
+    ChipsComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,8 @@ import { ChipsComponent } from './theme-viewer/chips/chips.component';
     AgGridModule,
     NgxColorsModule,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule
   ],
   bootstrap: [AppComponent]
 })

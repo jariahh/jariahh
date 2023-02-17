@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { tap } from 'rxjs';
-import { ThemeService } from '../../shared/services/theme.service';
-import { Options } from '../../style.service';
+import { ThemeService } from '../../../shared/services/theme.service';
+import { Options } from '../../../style.service';
 
 @Component({
   selector: 'app-buttons',
