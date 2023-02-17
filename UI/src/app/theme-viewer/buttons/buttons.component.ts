@@ -20,8 +20,10 @@ export class ButtonsComponent implements OnInit{
   public ngOnInit(): void {
     this.httpClient.get<any[]>('https://raw.githubusercontent.com/jossef/material-design-icons-iconfont/master/dist/fonts/MaterialIcons-Regular.json')
       .pipe(tap(results => {
-        this.iconNames = Object.getOwnPropertyNames(results).map((key, value) => key);
-        console.log(this.iconNames);
+        this.iconNames = Object.getOwnPropertyNames(results).map((key, value) => key)
+          .map(value => ({value, sort: Math.random()}))
+          .sort((a, b) => a.sort - b.sort)
+          .map(value => value.value);
         this.loadedIcons = true;
       }))
       .subscribe()

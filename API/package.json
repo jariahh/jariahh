@@ -11,6 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "@angular/material": "^15.1.4",
-    "@jariahh/material-theming": "^15.0.14"
+    "@jariahh/material-theming": "^15.0.15"
   }
 }

@@ -49,7 +49,7 @@
           }
           .mat-mdc-icon-button {
             &.mat-#{$color} {
-              --mdc-icon-button-icon-color: $on-surface;
+              --mdc-icon-button-icon-color: #{$on-surface};
             }
           }
         }
