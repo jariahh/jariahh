@@ -79,7 +79,7 @@
             $surface: map.get($values, 500);
             $disabled-ink-color: rgba($on-surface, if($is-dark, 0.5, 0.38));
             $disabled-container-color: rgba($on-surface, 0.12);
-            .mat-#{$color} {
+            &.mat-#{$color} {
               --mdc-checkbox-selected-checkmark-color: #{$on-surface};
               --mdc-checkbox-selected-focus-icon-color: #{$surface};
               --mdc-checkbox-selected-hover-icon-color: #{$surface};

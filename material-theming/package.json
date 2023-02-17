@@ -1,6 +1,6 @@
 {
   "name": "@jariahh/material-theming",
-  "version": "15.0.20",
+  "version": "15.0.21",
   "description": "Angular Material Theme Builder Helpers",
   "private": false,
   "scripts": {
