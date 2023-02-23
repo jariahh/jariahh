@@ -1,0 +1,25 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '@angular/material/core/theming/theming';
+@use './toolbar-helper';
+@import '../functions';
+
+@mixin toolbar_color($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  $is-dark: map.get($config, is-dark);
+  $colors: map.get($config-or-theme, color);
+  @each $color, $values in $colors {
+    @if (is-map($values)) {
+      $contrast: map.get($values, contrast);
+      @if (is-map($contrast)) {
+        $on-surface: map.get($contrast, 500);
+        $surface: map.get($values, 500);
+        .mat-toolbar {
+          &.mat-#{$color} {
+            @include toolbar-helper.palette-styles($on-surface, $surface);
+          }
+        }
+      }
+    }
+  }
+}

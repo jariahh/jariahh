@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, SecurityContext, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ColDef, Column, ColumnApi, FirstDataRenderedEvent } from 'ag-grid-community';
-import { Color, HexColor } from 'invert-color';
+import { HexColor } from 'invert-color';
 import { tap } from 'rxjs';
 import _ from 'underscore';
 import { ThemePalette } from '../shared/models/themePalette';
@@ -14,13 +15,18 @@ import { Options, StyleService } from '../style.service';
 import defaultTheme from './defaultTheme.json';
 import { DialogInputComponent } from './dialog/dialog-input.component';
 
+export class IMessage {
+  type: string = '';
+  data: any = {};
+}
+
 @Component({
   selector: 'app-theme-builder',
   templateUrl: './theme-builder.component.html',
   styleUrls: ['./theme-builder.component.scss']
 })
 export class ThemeBuilderComponent implements AfterViewInit {
-  @ViewChild('styleContainer') styleContainer: ElementRef<HTMLDivElement> = {} as any;
+  @ViewChild('iframe') iframe: ElementRef<HTMLIFrameElement> = {} as any;
   public typographyLevels: {
     name: string,
     settings:{
@@ -31,19 +37,19 @@ export class ThemeBuilderComponent implements AfterViewInit {
       letterSpacing?: string,
     }
   }[] = [
-    {name: 'headline-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '6rem', fontSize: '6rem'}},
-    {name: 'headline-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '3.75rem', fontSize: '3.75rem'}},
-    {name: 'headline-3', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '3.125rem', fontSize: '3rem'}},
-    {name: 'headline-4', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2.5rem', fontSize: '2.125rem'}},
-    {name: 'headline-5', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '1.5rem'}},
-    {name: 'headline-6', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '1.25rem'}},
-    {name: 'subtitle-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.75rem', fontSize: '1rem'}},
-    {name: 'subtitle-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.375rem', fontSize: '0.875rem'}},
-    {name: 'body-1'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.5rem', fontSize: '1rem'}},
-    {name: 'body-2'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.25rem', fontSize: '0.875rem'}},
-    {name: 'caption'   , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '1.25rem', fontSize: '0.85rem'}},
-    {name: 'button'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2.25rem', fontSize: '0.875rem'}},
-    {name: 'overline'  , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: 'regular', lineHeight: '2rem', fontSize: '0.85rem'}},
+    {name: 'headline-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '6rem', fontSize: '6rem'}},
+    {name: 'headline-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '3.75rem', fontSize: '3.75rem'}},
+    {name: 'headline-3', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '3.125rem', fontSize: '3rem'}},
+    {name: 'headline-4', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '2.5rem', fontSize: '2.125rem'}},
+    {name: 'headline-5', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '2rem', fontSize: '1.5rem'}},
+    {name: 'headline-6', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '2rem', fontSize: '1.25rem'}},
+    {name: 'subtitle-1', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '1.75rem', fontSize: '1rem'}},
+    {name: 'subtitle-2', settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '1.375rem', fontSize: '0.875rem'}},
+    {name: 'body-1'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '1.5rem', fontSize: '1rem'}},
+    {name: 'body-2'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '1.25rem', fontSize: '0.875rem'}},
+    {name: 'caption'   , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '1.25rem', fontSize: '0.85rem'}},
+    {name: 'button'    , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '2.25rem', fontSize: '0.875rem'}},
+    {name: 'overline'  , settings: {fontFamily: 'Inter', letterSpacing: 'normal', fontWeight: '400', lineHeight: '2rem', fontSize: '0.85rem'}},
   ];
 
   columnDefs: ColDef[] = [
@@ -116,12 +122,15 @@ export class ThemeBuilderComponent implements AfterViewInit {
   public fontFamilies: string[] = [];
   public fontWeights = ['thin', 'light', 'regular', 'medium', 'bold', 'black'];
   private gridColumnApi?: ColumnApi;
+  public iframePath: string = '/viewer/';
   constructor(private styleService: StyleService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private httpClient: HttpClient,
               public dialog: MatDialog,
-              public themeService: ThemeService) { }
+              public sanitizer: DomSanitizer,
+              public themeService: ThemeService) {
+  }
 
 
   public ngAfterViewInit(): void {
@@ -148,36 +157,35 @@ export class ThemeBuilderComponent implements AfterViewInit {
         this.typographyLevels = options.typographyLevels;
       }
     } catch {}
-    this.selectedTheme = this.themes.find(t => t.title === themeName) as any;
-    this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
+    const url = sessionStorage.getItem('iframe-url');
+    this.iframePath = url === '' || url == null? '/viewer/': url;
+    this.setTheme(themeName);
     this.updateLightDark();
 
-    this.setCss(defaultTheme.css);
+    this.updateCss(defaultTheme.css);
     this.updateStyles();
-    // this.httpClient.get('https://raw.githubusercontent.com/honeysilvas/google-fonts/dev/json/google-web-font-list-sorted-by-popularity.json')
-    //   .pipe(tap((webFonts: any) => {
-    //     this.fontFamilies = webFonts.items.map((i: any) => i.family);
-    //     console.log(this.fontFamilies);
-    //   }))
-    //   .subscribe();
-    //this.updateOptions();
+    window.onmessage = (e) => {
+      if(typeof e.data === 'string') {
+        const message = JSON.parse(e.data) as IMessage;
+        if (message.type === 'update-child') {
+          this.updateChild();
+          this.updateStyles();
+        } else if (message.type === 'location-update') {
+          sessionStorage.setItem('iframe-url', (message.data as Location).href);
+        }
+      } else {
+      }
+    }
   }
   private updateStyles(){
     this.isLoading = true;
+    this.updateLoading();
     const colors = this.getOptions();
     this.styleService.getCSS(colors as any).pipe(tap((css: string) => {
-      this.setCss(css);
+      this.isLoading = false;
+      this.updateCss(css);
 
     })).subscribe();
-  }
-  private setCss(css: string){
-    this.isLoading = false;
-    const styleElement = document.createElement('style');
-    styleElement.appendChild(document.createTextNode(css));
-    this.styleContainer.nativeElement.childNodes.forEach( childrenKey =>  {
-      this.styleContainer.nativeElement.removeChild(childrenKey);
-    });
-    this.styleContainer.nativeElement.append(styleElement);
   }
   debounce: any;
   public selectThemeClass: string = '';
@@ -198,8 +206,7 @@ export class ThemeBuilderComponent implements AfterViewInit {
   }
 
   public selectTheme($event: MatButtonToggleChange) {
-    this.selectedTheme = this.themes.find(t => t.title === $event.value) as any;
-    this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
+    this.setTheme($event.value);
     sessionStorage.setItem('selectedTheme', this.selectedTheme.title);
   }
 
@@ -252,21 +259,22 @@ export class ThemeBuilderComponent implements AfterViewInit {
 
   }
 
-  public addPallet() {
+  public addPalette() {
     const dialogRef = this.dialog.open(DialogInputComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       this.palettes.push({
         title: result as any,
         backgroundColor: new FormControl<HexColor>('#333') as any,
         color: new FormControl<HexColor>('#333') as any,
         isVisible:false
-      })
+      });
+      this.updatePalettes();
     });
   }
 
   public removePalette = (palette: ThemePalette) => {
     this.palettes = _.without(this.palettes, palette);
+    this.updatePalettes();
   }
 
   public firstDataRendered(event: FirstDataRenderedEvent<{name: string; settings: {fontFamily?: string; fontWeight?: string; fontSize?: string; lineHeight?: string; letterSpacing?: string}}>) {
@@ -277,5 +285,38 @@ export class ThemeBuilderComponent implements AfterViewInit {
   private resizeGrid() {
     if(this.gridColumnApi == null) return;
     this.gridColumnApi.autoSizeColumns(this.gridColumnApi.getColumns() as Column[]);
+  }
+
+  private setTheme(themeName: string) {
+    this.selectedTheme = this.themes.find(t => t.title === themeName) as any;
+    this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
+    this.updateTheme();
+  }
+
+
+  private postMessage(type: string, data: any) {
+    this.iframe.nativeElement?.contentWindow?.postMessage(JSON.stringify({type, data}), '*')
+  }
+  private updateChild() {
+    this.updatePalettes();
+    this.updateTheme();
+    this.updateLoading();
+  }
+  private updateCss(css: string){
+    this.updateLoading();
+    this.postMessage('css-update', css);
+    this.updateChild();
+  }
+
+  private updatePalettes() {
+    this.postMessage('palette-update', this.palettes);
+  }
+
+  private updateTheme() {
+    this.postMessage('theme-change',`${this.selectedTheme?.title?.toLowerCase()}-theme`);
+  }
+
+  private updateLoading() {
+    this.postMessage('is-loading', this.isLoading);
   }
 }

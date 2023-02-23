@@ -1,0 +1,16 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '@angular/material/core/theming/theming';
+@import '../functions';
+
+
+@mixin theme($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  $is-dark: map.get($config, is-dark);
+  $background: map.get($config, background);
+  $foreground: map.get($config, foreground);
+  .mat-drawer-content, .mat-sidenav-content{
+    background-color: map.get($background, background);
+    color: map.get($foreground, text);
+  }
+}

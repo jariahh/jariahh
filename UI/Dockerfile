@@ -11,8 +11,10 @@ COPY package.json /app/package.json
 RUN npm i -y
 COPY . .
 RUN ng build
+RUN ng build viewer
 
 FROM base AS final
 WORKDIR /usr/share/nginx/html
-COPY --from=build /app/docs/ .
+COPY --from=build /app/dist/shell/ ./shell
+COPY --from=build /app/dist/viewer/ ./viewer
 CMD ["nginx", "-g", "daemon off;"]

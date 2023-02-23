@@ -51,7 +51,6 @@ export class ColorSwatchComponent implements OnChanges{
   }
 
   public colorChanged($event: string | HSLA | HSVA | RGBA) {
-    console.log($event);
     this.colorChange.emit($event.toString());
 
   }

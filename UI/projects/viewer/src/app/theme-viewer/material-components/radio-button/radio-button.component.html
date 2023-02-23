@@ -1,0 +1,18 @@
+<div>
+  Default
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="1">Option 1</mat-radio-button>
+    <mat-radio-button value="2" [checked]="true">Option 2</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div *ngFor="let palette of theme.palettes">
+  {{palette.title | titlecase}}
+  <mat-radio-group aria-label="Select an option"
+                   [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+    <mat-radio-button value="1"
+                      [ngClass]="'mat-' + (palette.title | lowercase | replaceSpaceWithDash | asAny)">Option 1</mat-radio-button>
+    <mat-radio-button value="2"
+                      [ngClass]="'mat-' + (palette.title | lowercase | replaceSpaceWithDash | asAny)" [checked]="true">Option 2</mat-radio-button>
+  </mat-radio-group>
+</div>

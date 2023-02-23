@@ -1,0 +1,34 @@
+@use 'sass:map';
+@use '@angular/material/core/theming/theming';
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+
+@import '../functions';
+
+@mixin theme($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  @include mdc-helpers.using-mdc-theme($config) {
+    $is-dark: map.get($config, is-dark);
+    $colors: map.get($config-or-theme, color);
+    .mat-mdc-slider.mdc-slider {
+      @each $color, $values in $colors {
+        @if (is-map($values)) {
+          $contrast: map.get($values, contrast);
+          @if (is-map($contrast)) {
+            &.mat-#{$color} {
+              --mdc-slider-handle-color: #{map.get($values, 500)};
+              --mdc-slider-focus-handle-color: #{map.get($values, 500)};
+              --mdc-slider-hover-handle-color: #{map.get($values, 500)};
+              --mdc-slider-active-track-color: #{map.get($values, 500)};
+              --mdc-slider-inactive-track-color: #{map.get($values, 500)};
+              --mdc-slider-with-tick-marks-active-container-color: #{map.get($contrast, 500)};
+              --mdc-slider-with-tick-marks-inactive-container-color: #{map.get($values, 500)};
+              --mat-mdc-slider-ripple-color: #{map.get($values, 500)};
+              --mat-mdc-slider-hover-ripple-color: rgba(map.get($values, 500), .05);
+              --mat-mdc-slider-focus-ripple-color: rgba(map.get($values, 500), .2)
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,399 @@
+
+//Visit the following link to update the theme
+//http://localhost:4200/?q=eyJ0eXBvZ3JhcGh5TGV2ZWxzIjpbeyJuYW1lIjoiaGVhZGxpbmUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjZyZW0iLCJmb250U2l6ZSI6IjZyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtMiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjMuNzVyZW0iLCJmb250U2l6ZSI6IjMuNzVyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtMyIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjMuMTI1cmVtIiwiZm9udFNpemUiOiIzcmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTQiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIyLjVyZW0iLCJmb250U2l6ZSI6IjIuMTI1cmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTUiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIycmVtIiwiZm9udFNpemUiOiIxLjVyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtNiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjJyZW0iLCJmb250U2l6ZSI6IjEuMjVyZW0ifX0seyJuYW1lIjoic3VidGl0bGUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjEuNzVyZW0iLCJmb250U2l6ZSI6IjFyZW0ifX0seyJuYW1lIjoic3VidGl0bGUtMiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjEuMzc1cmVtIiwiZm9udFNpemUiOiIwLjg3NXJlbSJ9fSx7Im5hbWUiOiJib2R5LTEiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIxLjVyZW0iLCJmb250U2l6ZSI6IjFyZW0ifX0seyJuYW1lIjoiYm9keS0yIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6IkludGVyIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMS4yNXJlbSIsImZvbnRTaXplIjoiMC44NzVyZW0ifX0seyJuYW1lIjoiY2FwdGlvbiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjEuMjVyZW0iLCJmb250U2l6ZSI6IjAuODVyZW0ifX0seyJuYW1lIjoiYnV0dG9uIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6IkludGVyIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMi4yNXJlbSIsImZvbnRTaXplIjoiMC44NzVyZW0ifX0seyJuYW1lIjoib3ZlcmxpbmUiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIycmVtIiwiZm9udFNpemUiOiIwLjg1cmVtIn19XSwidGhlbWVzIjpbeyJ0aXRsZSI6IkxpZ2h0IiwiYmFja2dyb3VuZENvbG9yIjoiI2ZhZmFmYSIsImNvbG9yIjoiIzAwMCJ9LHsidGl0bGUiOiJEYXJrIiwiYmFja2dyb3VuZENvbG9yIjoiIzFkMWQxZCIsImNvbG9yIjoiI2ZhZmFmYSJ9XSwicGFsZXR0ZXMiOlt7InRpdGxlIjoicHJpbWFyeSIsImJhY2tncm91bmRDb2xvciI6IiM1NEMwRTgiLCJjb2xvciI6IiNmZmYifSx7InRpdGxlIjoiYWNjZW50IiwiYmFja2dyb3VuZENvbG9yIjoiIzBCM0I2MCIsImNvbG9yIjoiI2ZmZiJ9LHsidGl0bGUiOiJ3YXJuIiwiYmFja2dyb3VuZENvbG9yIjoiI0ZGQkYzQyIsImNvbG9yIjoiIzMzMyJ9LHsidGl0bGUiOiJUZXN0IDEiLCJiYWNrZ3JvdW5kQ29sb3IiOiIjNWUzNWIxIiwiY29sb3IiOiIjMzMzIn1dfQ%3D%3D
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '@angular/material/core/theming/theming';
+@use '@angular/material/core/theming/all-theme';
+@use "@angular/material/button/button-theme";
+@use "@angular/material/button/button-theme-private";
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+@use '@material/theme/theme-color' as mdc-theme-color;
+@use '@material/button/button-text-theme' as mdc-button-text-theme;
+@use '@material/button/button-filled-theme' as mdc-button-filled-theme;
+@use '@material/button/button-protected-theme' as mdc-button-protected-theme;
+@use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+@use '@jariahh/material-theming';
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+$typography: mat.define-typography-config(
+  $headline-1: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 6rem, $line-height: 6rem, $letter-spacing: normal),
+  $headline-2: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 3.75rem, $line-height: 3.75rem, $letter-spacing: normal),
+  $headline-3: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 3rem, $line-height: 3.125rem, $letter-spacing: normal),
+  $headline-4: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 2.125rem, $line-height: 2.5rem, $letter-spacing: normal),
+  $headline-5: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 1.5rem, $line-height: 2rem, $letter-spacing: normal),
+  $headline-6: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 1.25rem, $line-height: 2rem, $letter-spacing: normal),
+  $subtitle-1: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 1rem, $line-height: 1.75rem, $letter-spacing: normal),
+  $subtitle-2: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 0.875rem, $line-height: 1.375rem, $letter-spacing: normal),
+  $body-1: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 1rem, $line-height: 1.5rem, $letter-spacing: normal),
+  $body-2: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 0.875rem, $line-height: 1.25rem, $letter-spacing: normal),
+  $caption: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 0.85rem, $line-height: 1.25rem, $letter-spacing: normal),
+  $button: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 0.875rem, $line-height: 2.25rem, $letter-spacing: normal),
+  $overline: mat.define-typography-level($font-family: Inter, $font-weight: 400, $font-size: 0.85rem, $line-height: 2rem, $letter-spacing: normal)
+);
+$primary-palette: (
+  50:   #ffffff,
+  100:  #fafdfe,
+  200:  #c9ebf8,
+  300:  #8ad4ef,
+  400:  #61c5ea,
+  500:  #54c0e8,
+  600:  #39b6e4,
+  700:  #1eace1,
+  800:  #1b97c6,
+  900:  #1783ab,
+  A100: #ffffff,
+  A200: #d6f4ff,
+  A400: #76d5f9,
+  A700: #58c5ee,
+  contrast: (
+    50:   #000,
+    100:  #000,
+    200:  #000,
+    300:  #000,
+    400:  #000,
+    500:  #000,
+    600:  #000,
+    700:  #000,
+    800:  #000,
+    900:  #000,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000,
+  )
+);
+$accent-palette: (
+  50:   #83c1f1,
+  100:  #3f9fe9,
+  200:  #1984d7,
+  300:  #115d97,
+  400:  #0d436e,
+  500:  #0b3b60,
+  600:  #082a45,
+  700:  #051929,
+  800:  #02080e,
+  900:  #000000,
+  A100: #6bbfff,
+  A200: #0592ff,
+  A400: #04599a,
+  A700: #09416c,
+  contrast: (
+    50:   #000,
+    100:  #000,
+    200:  #000,
+    300:  #fafafa,
+    400:  #fafafa,
+    500:  #fafafa,
+    600:  #fafafa,
+    700:  #fafafa,
+    800:  #fafafa,
+    900:  #fafafa,
+    A100: #000,
+    A200: #000,
+    A400: #fafafa,
+    A700: #fafafa,
+  )
+);
+$warn-palette: (
+  50:   #ffffff,
+  100:  #fffdf9,
+  200:  #ffebc1,
+  300:  #ffd379,
+  400:  #ffc44b,
+  500:  #ffbf3c,
+  600:  #ffb51d,
+  700:  #feaa00,
+  800:  #df9600,
+  900:  #c18100,
+  A100: #ffffff,
+  A200: #fff1d5,
+  A400: #ffd06f,
+  A700: #ffc246,
+  contrast: (
+    50:   #000,
+    100:  #000,
+    200:  #000,
+    300:  #000,
+    400:  #000,
+    500:  #000,
+    600:  #000,
+    700:  #000,
+    800:  #000,
+    900:  #000,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000,
+  )
+);
+$test-1-palette: (
+  50:   #f6f4fc,
+  100:  #c9b9ea,
+  200:  #a88edd,
+  300:  #7e57cd,
+  400:  #6439bd,
+  500:  #5e35b1,
+  600:  #512e99,
+  700:  #452782,
+  800:  #38206a,
+  900:  #2c1953,
+  A100: #efe8fd,
+  A200: #ad8af5,
+  A400: #723edb,
+  A700: #6031bf,
+  contrast: (
+    50:   #000,
+    100:  #000,
+    200:  #000,
+    300:  #fafafa,
+    400:  #fafafa,
+    500:  #fafafa,
+    600:  #fafafa,
+    700:  #fafafa,
+    800:  #fafafa,
+    900:  #fafafa,
+    A100: #000,
+    A200: #000,
+    A400: #fafafa,
+    A700: #fafafa,
+  )
+);
+
+$light-palette: (
+  50:   #ffffff,
+  100:  #ffffff,
+  200:  #ffffff,
+  300:  #ffffff,
+  400:  #ffffff,
+  500:  #fafafa,
+  600:  #ebebeb,
+  700:  #dbdbdb,
+  800:  #cccccc,
+  900:  #bdbdbd,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffffff,
+  A700: #ffffff,
+  contrast: (
+    50:   #000,
+    100:  #000,
+    200:  #000,
+    300:  #000,
+    400:  #000,
+    500:  #000,
+    600:  #000,
+    700:  #000,
+    800:  #000,
+    900:  #000,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000,
+  )
+);
+$light-theme-contrast: map.get(map.get($light-palette, contrast), 500);
+$light-theme-default: map.get($light-palette, 500);
+
+$light-dark-primary-text: rgba($light-theme-default, 0.87);
+$light-dark-secondary-text: rgba($light-theme-default, 0.54);
+$light-dark-disabled-text: rgba($light-theme-default, 0.38);
+$light-dark-dividers: rgba($light-theme-default, 0.12);
+$light-dark-focused: rgba($light-theme-default, 0.12);
+
+$light-light-primary-text: rgba($light-theme-contrast, 0.7);
+$light-light-secondary-text: rgba($light-theme-contrast, 0.5);
+$light-light-disabled-text: rgba($light-theme-contrast, 0.5);
+$light-light-dividers: rgba($light-theme-contrast, 0.12);
+$light-light-focused: rgba($light-theme-contrast, 0.12);
+
+// Background palette for light themes.
+$light-theme-background-palette: (
+  status-bar: map.get($light-palette, 300),
+  app-bar:    map.get($light-palette, 100),
+  background: map.get($light-palette, 50),
+  hover:      rgba($light-theme-contrast, 0.04), // TODO(kara): check style with Material Design UX
+  card:       $light-theme-default,
+  dialog:     $light-theme-default,
+  disabled-button: rgba($light-theme-contrast, 0.12),
+  raised-button: $light-theme-default,
+  focused-button: $light-dark-focused,
+  selected-button: map.get($light-palette, 300),
+  selected-disabled-button: map.get($light-palette, 400),
+  disabled-button-toggle: map.get($light-palette, 200),
+  unselected-chip: map.get($light-palette, 300),
+  disabled-list-option: map.get($light-palette, 200),
+  tooltip: map.get($light-palette, 700),
+);
+
+// Foreground palette for light themes.
+$light-theme-foreground-palette: (
+  base:              $light-theme-contrast,
+  divider:           $light-dark-dividers,
+  dividers:          $light-dark-dividers,
+  disabled:          $light-dark-disabled-text,
+  disabled-button:   rgba($light-theme-contrast, 0.26),
+  disabled-text:     $light-dark-disabled-text,
+  elevation:         $light-theme-contrast,
+  hint-text:         $light-dark-disabled-text,
+  secondary-text:    $light-dark-secondary-text,
+  icon:              rgba($light-theme-contrast, 0.54),
+  icons:             rgba($light-theme-contrast, 0.54),
+  text:              rgba($light-theme-contrast, 0.87),
+  slider-min:        rgba($light-theme-contrast, 0.87),
+  slider-off:        rgba($light-theme-contrast, 0.26),
+  slider-off-active: rgba($light-theme-contrast, 0.38),
+);
+$dark-palette: (
+  50:   #a2a2a2,
+  100:  #7b7b7b,
+  200:  #5f5f5f,
+  300:  #3c3c3c,
+  400:  #252525,
+  500:  #1d1d1d,
+  600:  #0e0e0e,
+  700:  #000000,
+  800:  #000000,
+  900:  #000000,
+  A100: #ba7f7f,
+  A200: #894a4a,
+  A400: #3f2e2e,
+  A700: #242020,
+  contrast: (
+    50:   #1d1d1d,
+    100:  #1d1d1d,
+    200:  #fafafa,
+    300:  #fafafa,
+    400:  #fafafa,
+    500:  #fafafa,
+    600:  #fafafa,
+    700:  #fafafa,
+    800:  #fafafa,
+    900:  #fafafa,
+    A100: #1d1d1d,
+    A200: #fafafa,
+    A400: #fafafa,
+    A700: #fafafa,
+  )
+);
+$dark-theme-contrast: map.get(map.get($dark-palette, contrast), 500);
+$dark-theme-default: map.get($dark-palette, 500);
+
+$dark-dark-primary-text: rgba($dark-theme-default, 0.87);
+$dark-dark-secondary-text: rgba($dark-theme-default, 0.54);
+$dark-dark-disabled-text: rgba($dark-theme-default, 0.38);
+$dark-dark-dividers: rgba($dark-theme-default, 0.12);
+$dark-dark-focused: rgba($dark-theme-default, 0.12);
+
+$dark-light-primary-text: rgba($dark-theme-contrast, 0.7);
+$dark-light-secondary-text: rgba($dark-theme-contrast, 0.5);
+$dark-light-disabled-text: rgba($dark-theme-contrast, 0.5);
+$dark-light-dividers: rgba($dark-theme-contrast, 0.12);
+$dark-light-focused: rgba($dark-theme-contrast, 0.12);
+
+// Background palette for light themes.
+$dark-theme-background-palette: (
+  status-bar: map.get($dark-palette, 300),
+  app-bar:    map.get($dark-palette, 100),
+  background: map.get($dark-palette, 50),
+  hover:      rgba($dark-theme-contrast, 0.04), // TODO(kara): check style with Material Design UX
+  card:       $dark-theme-default,
+  dialog:     $dark-theme-default,
+  disabled-button: rgba($dark-theme-contrast, 0.12),
+  raised-button: $dark-theme-default,
+  focused-button: $dark-dark-focused,
+  selected-button: map.get($dark-palette, 300),
+  selected-disabled-button: map.get($dark-palette, 400),
+  disabled-button-toggle: map.get($dark-palette, 200),
+  unselected-chip: map.get($dark-palette, 300),
+  disabled-list-option: map.get($dark-palette, 200),
+  tooltip: map.get($dark-palette, 700),
+);
+
+// Foreground palette for light themes.
+$dark-theme-foreground-palette: (
+  base:              $dark-theme-contrast,
+  divider:           $dark-dark-dividers,
+  dividers:          $dark-dark-dividers,
+  disabled:          $dark-dark-disabled-text,
+  disabled-button:   rgba($dark-theme-contrast, 0.26),
+  disabled-text:     $dark-dark-disabled-text,
+  elevation:         $dark-theme-contrast,
+  hint-text:         $dark-dark-disabled-text,
+  secondary-text:    $dark-dark-secondary-text,
+  icon:              rgba($dark-theme-contrast, 0.54),
+  icons:             rgba($dark-theme-contrast, 0.54),
+  text:              rgba($dark-theme-contrast, 0.87),
+  slider-min:        rgba($dark-theme-contrast, 0.87),
+  slider-off:        rgba($dark-theme-contrast, 0.26),
+  slider-off-active: rgba($dark-theme-contrast, 0.38),
+);
+// Include non-theme styles for core.
+@include mat.core();
+
+// Define a theme.
+$primary: theming.define-palette($primary-palette);
+$accent: theming.define-palette($accent-palette);
+$warn: theming.define-palette($warn-palette);
+$test-1: theming.define-palette($test-1-palette);
+
+
+$theme-light: theming.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    test-1: $test-1
+  ),
+  typography: $typography,
+  density: 0,
+));
+
+$theme-light: map.deep-merge($theme-light, (
+  'color': (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    test-1: $test-1,
+    'background': $light-theme-background-palette,
+    'foreground': $light-theme-foreground-palette,
+  )
+));
+$theme-dark: theming.define-dark-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    test-1: $test-1
+  ),
+  typography: $typography,
+  density: 0,
+));
+
+$theme-dark: map.deep-merge($theme-dark, (
+  'color': (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    test-1: $test-1,
+    'background': $dark-theme-background-palette,
+    'foreground': $dark-theme-foreground-palette,
+  )
+));
+
+@mixin theme() {
+  // Include all theme styles for the components.
+  @include all-theme.all-component-themes($theme-light);
+  @include mat.typography-hierarchy($theme-light);
+  @include material-theming.all-theme($theme-light);
+
+  .dark-theme{
+    // Include all theme styles for the components.
+    @include all-theme.all-component-themes($theme-dark);
+    @include mat.typography-hierarchy($theme-dark);
+    @include material-theming.all-theme($theme-dark);
+
+  }
+}

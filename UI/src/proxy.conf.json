@@ -1,6 +1,12 @@
 {
   "/api/*": {
-    "target": "https://material.holsapple.club",
+    "target": "http://0.0.0.0:80",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/viewer/*": {
+    "target": "http://localhost:4201",
     "secure": true,
     "logLevel": "debug",
     "changeOrigin": true

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import invert, { Color } from 'invert-color';
 import { HSLA, HSVA, RGBA } from 'ngx-color';
+import { object } from 'underscore';
 import { ColorService } from '../../shared/services/color.service';
 
 @Component({
@@ -32,12 +33,15 @@ export class ColorViewComponent implements OnChanges {
     {contrast: '', name: 'A700', value: ''}];
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const colors = this.colorService.getColorObject(`${this.color}`);
-    this.colors.forEach(c => {
+    const colors = this.colorService.getColorObject(`${this.color}`, `${this.light}`, `${this.dark}`);
+    this.colors = Object.getOwnPropertyNames(colors).filter(c => c !== 'contrast').map((key, value) => {
+      return {
+        name: key,
         // @ts-ignore
-      c.value = colors[c.name];
-      c.contrast = invert(c.value, { black: `${this.dark}`, white: `${this.light}` })
-    })
-    console.log(this.color);
+        value: colors[key],
+        // @ts-ignore
+        contrast: colors.contrast[key]
+      } as any;
+    });
   }
 }

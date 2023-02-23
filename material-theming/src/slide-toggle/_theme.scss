@@ -1,0 +1,57 @@
+@use 'sass:map';
+@use '@angular/material/core/theming/theming';
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+
+@import '../functions';
+
+@mixin theme($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  @include mdc-helpers.using-mdc-theme($config) {
+    $is-dark: map.get($config, is-dark);
+    $colors: map.get($config-or-theme, color);
+    .mat-mdc-slide-toggle {
+      @each $color, $values in $colors {
+        @if (is-map($values)) {
+          $contrast: map.get($values, contrast);
+          @if (is-map($contrast)) {
+            &.mat-#{$color} {
+              --mdc-switch-selected-focus-state-layer-color: #{map.get($values, 400)};
+              --mdc-switch-selected-handle-color: #{map.get($values, 300)};
+              --mdc-switch-selected-hover-state-layer-color: #{map.get($values, 200)};
+              --mdc-switch-selected-pressed-state-layer-color: #{map.get($values, 100)};
+              --mdc-switch-selected-focus-handle-color: #{map.get($values, 50)};
+              --mdc-switch-selected-hover-handle-color: #{map.get($values, 50)};
+              --mdc-switch-selected-pressed-handle-color: #{map.get($values, 50)};
+              --mdc-switch-selected-focus-track-color: #{map.get($values, 500)};
+              --mdc-switch-selected-hover-track-color: #{map.get($values, 500)};
+              --mdc-switch-selected-pressed-track-color: #{map.get($values, 500)};
+              --mdc-switch-selected-track-color: #{map.get($values, 500)};
+
+
+              --mdc-switch-disabled-selected-handle-color: #{map.get($contrast, 500)};
+              --mdc-switch-disabled-unselected-handle-color: #{map.get($contrast, 500)};
+              --mdc-switch-disabled-selected-track-color: #{map.get($contrast, 50)};
+              --mdc-switch-disabled-unselected-track-color: #{map.get($contrast, 50)};
+              --mdc-switch-unselected-focus-state-layer-color: #{map.get($contrast, 50)};
+              --mdc-switch-unselected-pressed-state-layer-color: #{map.get($contrast, 50)};
+              --mdc-switch-unselected-hover-state-layer-color: #{map.get($contrast, 50)};
+              --mdc-switch-unselected-focus-track-color: #{map.get($contrast, 200)};
+              --mdc-switch-unselected-hover-track-color: #{map.get($contrast, 200)};
+              --mdc-switch-unselected-pressed-track-color: #{map.get($contrast, 200)};
+              --mdc-switch-unselected-track-color: #{map.get($contrast, 200)};
+              --mdc-switch-unselected-focus-handle-color: #{map.get($contrast, 400)};
+              --mdc-switch-unselected-hover-handle-color: #{map.get($contrast, 400)};
+              --mdc-switch-unselected-pressed-handle-color: #{map.get($contrast, 400)};
+              --mdc-switch-handle-surface-color: var(--mdc-theme-surface, #{map.get($contrast, 400)});
+              --mdc-switch-unselected-handle-color: #{map.get($contrast, 800)};
+              --mdc-switch-selected-icon-color: #{map.get($contrast, 700)};
+              --mdc-switch-disabled-selected-icon-color: #{map.get($contrast, 700)};
+              --mdc-switch-disabled-unselected-icon-color: #{map.get($contrast, 700)};
+              --mdc-switch-unselected-icon-color: #{map.get($contrast, 700)};
+            }
+          }
+        }
+      }
+    }
+  }
+}

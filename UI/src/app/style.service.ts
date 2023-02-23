@@ -47,12 +47,10 @@ export class StyleService {
       this.request.unsubscribe();
     this.request = this.httpClient.post<any>('api/', {scss: theme}, {headers})
       .pipe(tap((result: any) => {
-        console.log(result);
         this.request = null;
         sub.next(result.css)
       }), catchError(error => {
         sub.next('');
-        console.log(error);
         return of()
       })).subscribe();
     return sub;
@@ -73,7 +71,7 @@ export class StyleService {
 @use '@material/button/button-filled-theme' as mdc-button-filled-theme;
 @use '@material/button/button-protected-theme' as mdc-button-protected-theme;
 @use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
-@use '@jariahh/material-theming';
+@use '@jariahh/material-theming' as material-theming;
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 ${_.uniq(options.typographyLevels, (l: any) => l.settings.fontFamily).map((level) => {
@@ -116,15 +114,12 @@ $theme-${theme.title.toLowerCase()}: map.deep-merge($theme-${theme.title.toLower
 @mixin theme() {
 ${
       options.themes.map(theme => { return `${
-        this.wrapWithClass('.sealed-container', `
-${
-          this.wrapWithClass(`${wrapText? '&': ''}.${this.titleToName(theme.title)}-theme`, `
+          this.wrapWithClass(`.${this.titleToName(theme.title)}-theme`, `
   // Include all theme styles for the components.
   @include all-theme.all-component-themes($theme-${this.titleToName(theme.title)});
   @include mat.typography-hierarchy($theme-${this.titleToName(theme.title)});
   @include material-theming.all-theme($theme-${this.titleToName(theme.title)});
     `, theme.title !== 'Light')
-        }`, wrapText)
       }`;
       }).join('')
     }
@@ -132,7 +127,7 @@ ${
 ${wrapText? '@include theme()': ''}`;
   }
   private buildPalette(color: Palette, lightFont: string, darkFont: string){
-    const colorShades = this.colorService.getColorObject(color.backgroundColor);
+    const colorShades = this.colorService.getColorObject(color.backgroundColor, lightFont, darkFont);
     return `$${this.titleToName(color.title)}-palette: (
     50:   ${colorShades['50']  },
     100:  ${colorShades['100'] },
@@ -149,20 +144,20 @@ ${wrapText? '@include theme()': ''}`;
     A400: ${colorShades['A400']},
     A700: ${colorShades['A700']},
     contrast: (
-      50:   ${invert(colorShades['50']  , { black: darkFont, white: lightFont })},
-      100:  ${invert(colorShades['100'] , { black: darkFont, white: lightFont })},
-      200:  ${invert(colorShades['200'] , { black: darkFont, white: lightFont })},
-      300:  ${invert(colorShades['300'] , { black: darkFont, white: lightFont })},
-      400:  ${invert(colorShades['400'] , { black: darkFont, white: lightFont })},
-      500:  ${invert(colorShades['500'] , { black: darkFont, white: lightFont })},
-      600:  ${invert(colorShades['600'] , { black: darkFont, white: lightFont })},
-      700:  ${invert(colorShades['700'] , { black: darkFont, white: lightFont })},
-      800:  ${invert(colorShades['800'] , { black: darkFont, white: lightFont })},
-      900:  ${invert(colorShades['900'] , { black: darkFont, white: lightFont })},
-      A100: ${invert(colorShades['A100'], { black: darkFont, white: lightFont })},
-      A200: ${invert(colorShades['A200'], { black: darkFont, white: lightFont })},
-      A400: ${invert(colorShades['A400'], { black: darkFont, white: lightFont })},
-      A700: ${invert(colorShades['A700'], { black: darkFont, white: lightFont })},
+      50:   ${colorShades.contrast['50']},
+      100:  ${colorShades.contrast['100']},
+      200:  ${colorShades.contrast['200']},
+      300:  ${colorShades.contrast['300']},
+      400:  ${colorShades.contrast['400']},
+      500:  ${colorShades.contrast['500']},
+      600:  ${colorShades.contrast['600']},
+      700:  ${colorShades.contrast['700']},
+      800:  ${colorShades.contrast['800']},
+      900:  ${colorShades.contrast['900']},
+      A100: ${colorShades.contrast['A100']},
+      A200: ${colorShades.contrast['A200']},
+      A400: ${colorShades.contrast['A400']},
+      A700: ${colorShades.contrast['A700']},
     )
   );`
   }
@@ -215,7 +210,7 @@ $${this.titleToName(theme.title)}-theme-default: map.get($${this.titleToName(the
 $${this.titleToName(theme.title)}-dark-primary-text: rgba($${this.titleToName(theme.title)}-theme-default, 0.87);
 $${this.titleToName(theme.title)}-dark-secondary-text: rgba($${this.titleToName(theme.title)}-theme-default, 0.54);
 $${this.titleToName(theme.title)}-dark-disabled-text: rgba($${this.titleToName(theme.title)}-theme-default, 0.38);
-$${this.titleToName(theme.title)}-dark-dividers: rgba($${this.titleToName(theme.title)}-theme-default, 0.12);
+$${this.titleToName(theme.title)}-dark-dividers: rgba($${this.titleToName(theme.title)}-theme-${theme.title.toLowerCase() == 'dark'? 'default': 'contrast'}, ${theme.title.toLowerCase() == 'dark'? 0.31: 0.05});
 $${this.titleToName(theme.title)}-dark-focused: rgba($${this.titleToName(theme.title)}-theme-default, 0.12);
 
 $${this.titleToName(theme.title)}-light-primary-text: rgba($${this.titleToName(theme.title)}-theme-contrast, 0.7);
@@ -228,8 +223,8 @@ $${this.titleToName(theme.title)}-light-focused: rgba($${this.titleToName(theme.
 $${this.titleToName(theme.title)}-theme-background-palette: (
   status-bar: map.get($${this.titleToName(theme.title)}-palette, 300),
   app-bar:    map.get($${this.titleToName(theme.title)}-palette, 100),
-  background: map.get($${this.titleToName(theme.title)}-palette, 50),
-  hover:      rgba($${this.titleToName(theme.title)}-theme-contrast, 0.04), // TODO(kara): check style with Material Design UX
+  background: map.get($${this.titleToName(theme.title)}-palette, 300),
+  hover:      rgba($${this.titleToName(theme.title)}-theme-contrast, 0.04),
   card:       $${this.titleToName(theme.title)}-theme-default,
   dialog:     $${this.titleToName(theme.title)}-theme-default,
   disabled-button: rgba($${this.titleToName(theme.title)}-theme-contrast, 0.12),

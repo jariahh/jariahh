@@ -1,0 +1,35 @@
+@use 'sass:map';
+@use '@angular/material/core/theming/theming';
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+
+@import '../functions';
+
+@mixin theme($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  @include mdc-helpers.using-mdc-theme($config) {
+    $is-dark: map.get($config, is-dark);
+    $colors: map.get($config-or-theme, color);
+    .mat-mdc-radio-button {
+      @each $color, $values in $colors {
+        @if (is-map($values)) {
+          $contrast: map.get($values, contrast);
+          @if (is-map($contrast)) {
+            $on-surface: map.get($contrast, 500);
+            $surface: map.get($values, 500);
+            $disabled-ink-color: rgba($on-surface, if($is-dark, 0.5, 0.38));
+            $disabled-container-color: rgba($on-surface, 0.12);
+
+            &.mat-#{$color} {
+              --mdc-radio-selected-focus-icon-color: #{$surface};
+              --mdc-radio-selected-hover-icon-color: #{$surface};
+              --mdc-radio-selected-icon-color: #{$surface};
+              --mdc-radio-selected-pressed-icon-color: #{$surface};
+              --mat-mdc-radio-ripple-color: #{$on-surface};
+              --mat-mdc-radio-checked-ripple-color: #{$surface};
+            }
+          }
+        }
+      }
+    }
+  }
+}

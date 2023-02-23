@@ -2,11 +2,18 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatLineModule, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -24,33 +31,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { ConfirmationModule } from './theme-builder/confirmation/confirmation.module';
 import { DialogInputComponent } from './theme-builder/dialog/dialog-input.component';
 import { ThemeBuilderComponent } from './theme-builder/theme-builder.component';
-import { ButtonsComponent } from './theme-viewer/material-components/buttons/buttons.component';
-import { CheckboxComponent } from './theme-viewer/material-components/checkbox/checkbox.component';
-import { ChipsComponent } from './theme-viewer/material-components/chips/chips.component';
-import { ToolbarComponent } from './theme-viewer/material-components/toolbar/toolbar.component';
-import { ThemeViewerComponent } from './theme-viewer/theme-viewer.component';
 import { AppComponent } from './app.component';
 import { ColorViewComponent } from './theme-builder/color-view/color-view.component';
-import { HomeComponent } from './theme-viewer/home/home.component';
 import { ColorSwatchComponent } from './theme-builder/color-swatch/color-swatch.component';
 import { ReplaceSpaceWithDashPipe } from './shared/replace-space-with-dash.pipe';
-import { ProgressBarComponent } from './theme-viewer/material-components/progress-bar/progress-bar.component';
+import { SafePipe } from './shared/safe.pipe';
 
 @NgModule({
   declarations: [
     ThemeBuilderComponent,
-    ThemeViewerComponent,
     AppComponent,
     ColorViewComponent,
-    HomeComponent,
-    ButtonsComponent,
     ColorSwatchComponent,
     DialogInputComponent,
     ReplaceSpaceWithDashPipe,
-    ToolbarComponent,
-    CheckboxComponent,
-    ChipsComponent,
-    ProgressBarComponent
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -74,7 +69,15 @@ import { ProgressBarComponent } from './theme-viewer/material-components/progres
     NgxColorsModule,
     MatCheckboxModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatLineModule,
+    MatBottomSheetModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule
   ],
   bootstrap: [AppComponent]
 })

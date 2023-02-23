@@ -1,0 +1,5 @@
+<p *ngFor="let palette of theme.palettes">
+  {{palette.title | titlecase}}
+  <mat-progress-spinner color="{{palette.title | lowercase | replaceSpaceWithDash}}"
+                    mode="indeterminate" value="40"></mat-progress-spinner>
+</p>

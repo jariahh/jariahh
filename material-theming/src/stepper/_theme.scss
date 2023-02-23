@@ -1,0 +1,57 @@
+@use 'sass:map';
+@use '@angular/material/core/theming/theming';
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+
+@import '../functions';
+
+@mixin theme($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  @include mdc-helpers.using-mdc-theme($config) {
+    $is-dark: map.get($config, is-dark);
+    $colors: map.get($config-or-theme, color);
+    .mat-step-header {
+
+      @if ($is-dark) {
+        .mat-step-label, .mat-step-optional {
+          .mat-step-text-label {
+            color: rgba(250, 250, 250, 0.54);
+          }
+        }
+      }
+      @else {
+          .mat-step-label, .mat-step-optional {
+            .mat-step-text-label {
+              color: rgba(0, 0, 0, 0.54);
+            }
+          }
+      }
+      @each $color, $values in $colors {
+        @if (is-map($values)) {
+          $contrast: map.get($values, contrast);
+          @if (is-map($contrast)) {
+            $on-surface: map.get($contrast, 500);
+            $surface: map.get($values, 500);
+            &.mat-#{$color} {
+              @if ($is-dark) {
+                .mat-step-icon {
+                  background-color: rgba(white, 0.54);
+                  color: black;
+                }
+              }
+              @else {
+                .mat-step-icon {
+                  background-color: rgba(black, 0.54);
+                  color: white;
+                }
+              }
+              .mat-step-icon-selected, .mat-step-icon-state-done, .mat-step-icon-state-edit {
+                background-color: #{$surface};
+                color: #{$on-surface};
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

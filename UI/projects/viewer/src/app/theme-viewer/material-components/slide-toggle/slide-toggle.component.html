@@ -1,0 +1,4 @@
+<div style="padding: 1rem;" *ngFor="let palette of theme.palettes">
+  {{palette.title | titlecase}}
+  <mat-slide-toggle checked="true" [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">Slide me!</mat-slide-toggle>
+</div>

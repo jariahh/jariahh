@@ -1,0 +1,7 @@
+
+<div style="padding: 1rem;" *ngFor="let palette of theme.palettes">
+  {{palette.title | titlecase}}
+  <mat-slider [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+    <input matSliderThumb>
+  </mat-slider>
+</div>

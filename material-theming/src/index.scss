@@ -1,0 +1,29 @@
+@use './button/theme' as button-color;
+@use './drawer/theme' as drawer-theme;
+@use './toolbar/theme' as toolbar-theme;
+@use './checkbox/theme' as checkbox-theme;
+@use './chip/theme' as chip-theme;
+@use './progress-bar/theme' as progress-bar-theme;
+@use './progress-spinner/theme' as progress-spinner-theme;
+@use './radio/theme' as radio-theme;
+@use './select/theme' as select-theme;
+@use './slide-toggle/theme' as slide-toggle-theme;
+@use './slider/theme' as slider-theme;
+@use './stepper/theme' as stepper-theme;
+@use './tabs/theme' as tabs-theme;
+
+@mixin all-theme($config-or-theme) {
+  @include toolbar-theme.toolbar_color($config-or-theme);
+  @include button-color.button_color($config-or-theme);
+  @include checkbox-theme.checkbox_color($config-or-theme);
+  @include chip-theme.standard_chip_color($config-or-theme);
+  @include progress-bar-theme.progress-bar_color($config-or-theme);
+  @include progress-spinner-theme.progress_spinner_color($config-or-theme);
+  @include drawer-theme.theme($config-or-theme);
+  @include radio-theme.theme($config-or-theme);
+  @include select-theme.theme($config-or-theme);
+  @include slide-toggle-theme.theme($config-or-theme);
+  @include slider-theme.theme($config-or-theme);
+  @include stepper-theme.theme($config-or-theme);
+  @include tabs-theme.theme($config-or-theme);
+}
