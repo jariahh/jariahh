@@ -38,7 +38,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgxColorsModule } from 'ngx-colors';
 import { ConfirmationModule } from '../../../../../src/app/theme-builder/confirmation/confirmation.module';
-import { AppModule } from '../app.module';
 import { AsAnyPipe } from '../pipes/as-any.pipe';
 import { ReplaceSpaceWithDashPipe } from '../pipes/replace-space-with-dash.pipe';
 import { HomeComponent } from './home/home.component';

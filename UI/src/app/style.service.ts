@@ -71,7 +71,7 @@ export class StyleService {
 @use '@material/button/button-filled-theme' as mdc-button-filled-theme;
 @use '@material/button/button-protected-theme' as mdc-button-protected-theme;
 @use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
-@use '@jariahh/material-theming' as material-theming;
+@use '@jariahh/material-theming/src' as material-theming;
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 ${_.uniq(options.typographyLevels, (l: any) => l.settings.fontFamily).map((level) => {

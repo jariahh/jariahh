@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ThemeService } from '../../../../src/app/shared/services/theme.service';
-import { StyleService } from '../../../../src/app/style.service';
 
 @Component({
   selector: 'app-root',
