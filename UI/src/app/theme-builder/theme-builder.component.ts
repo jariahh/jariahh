@@ -290,6 +290,7 @@ export class ThemeBuilderComponent implements AfterViewInit {
   private setTheme(themeName: string) {
     this.selectedTheme = this.themes.find(t => t.title === themeName) as any;
     this.selectThemeClass = `${this.selectedTheme?.title?.toLowerCase()}-theme`;
+    document.body.className = `mat-body ${this.selectThemeClass}`;
     this.updateTheme();
   }
 

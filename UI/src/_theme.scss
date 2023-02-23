@@ -1,126 +1,132 @@
 
 //Visit the following link to update the theme
-//http://localhost:4200/?q=eyJ0eXBvZ3JhcGh5TGV2ZWxzIjpbeyJuYW1lIjoiaGVhZGxpbmUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjZyZW0iLCJmb250U2l6ZSI6IjZyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtMiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjMuNzVyZW0iLCJmb250U2l6ZSI6IjMuNzVyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtMyIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjMuMTI1cmVtIiwiZm9udFNpemUiOiIzcmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTQiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjUwMCIsImxpbmVIZWlnaHQiOiIyLjVyZW0iLCJmb250U2l6ZSI6IjIuMTI1cmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTUiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjUwMCIsImxpbmVIZWlnaHQiOiIycmVtIiwiZm9udFNpemUiOiIxLjVyZW0ifX0seyJuYW1lIjoiaGVhZGxpbmUtNiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjJyZW0iLCJmb250U2l6ZSI6IjEuMjVyZW0ifX0seyJuYW1lIjoic3VidGl0bGUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjEuNzVyZW0iLCJmb250U2l6ZSI6IjFyZW0ifX0seyJuYW1lIjoic3VidGl0bGUtMiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjEuMzc1cmVtIiwiZm9udFNpemUiOiIwLjg3NXJlbSJ9fSx7Im5hbWUiOiJib2R5LTEiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjUwMCIsImxpbmVIZWlnaHQiOiIxLjVyZW0iLCJmb250U2l6ZSI6IjFyZW0ifX0seyJuYW1lIjoiYm9keS0yIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6IkludGVyIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI1MDAiLCJsaW5lSGVpZ2h0IjoiMS4yNXJlbSIsImZvbnRTaXplIjoiMC44NzVyZW0ifX0seyJuYW1lIjoiY2FwdGlvbiIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJJbnRlciIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNTAwIiwibGluZUhlaWdodCI6IjEuMjVyZW0iLCJmb250U2l6ZSI6IjAuODVyZW0ifX0seyJuYW1lIjoiYnV0dG9uIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6IkludGVyIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI1MDAiLCJsaW5lSGVpZ2h0IjoiMi4yNXJlbSIsImZvbnRTaXplIjoiMC44NzVyZW0ifX0seyJuYW1lIjoib3ZlcmxpbmUiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiSW50ZXIiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6InJlZ3VsYXIiLCJsaW5lSGVpZ2h0IjoiMnJlbSIsImZvbnRTaXplIjoiMC44NXJlbSJ9fV0sInRoZW1lcyI6W3sidGl0bGUiOiJMaWdodCIsImJhY2tncm91bmRDb2xvciI6IiNmMGYwZjAiLCJjb2xvciI6IiMyYTJhMmEifSx7InRpdGxlIjoiRGFyayIsImJhY2tncm91bmRDb2xvciI6IiMzMTMxMzEiLCJjb2xvciI6IiNmMWYxZjEifV0sInBhbGV0dGVzIjpbeyJ0aXRsZSI6InByaW1hcnkiLCJiYWNrZ3JvdW5kQ29sb3IiOiIjM2I3M2E1IiwiY29sb3IiOiIjMDAwMDAwIn0seyJ0aXRsZSI6ImFjY2VudCIsImJhY2tncm91bmRDb2xvciI6IiMwYjNiNjAiLCJjb2xvciI6IiMwMDAwMDAifSx7InRpdGxlIjoid2FybiIsImJhY2tncm91bmRDb2xvciI6IiNjOTJlMjUiLCJjb2xvciI6IiMwMDAwMDAifV19
+//http://localhost:4200/?q=eyJ0eXBvZ3JhcGh5TGV2ZWxzIjpbeyJuYW1lIjoiaGVhZGxpbmUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJPcGVuIFNhbnMiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiI2cmVtIiwiZm9udFNpemUiOiI2cmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTIiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMy43NXJlbSIsImZvbnRTaXplIjoiMy43NXJlbSJ9fSx7Im5hbWUiOiJoZWFkbGluZS0zIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6Ik9wZW4gU2FucyIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjMuMTI1cmVtIiwiZm9udFNpemUiOiIzcmVtIn19LHsibmFtZSI6ImhlYWRsaW5lLTQiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMi41cmVtIiwiZm9udFNpemUiOiIyLjEyNXJlbSJ9fSx7Im5hbWUiOiJoZWFkbGluZS01Iiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6Ik9wZW4gU2FucyIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjJyZW0iLCJmb250U2l6ZSI6IjEuNXJlbSJ9fSx7Im5hbWUiOiJoZWFkbGluZS02Iiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6Ik9wZW4gU2FucyIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjJyZW0iLCJmb250U2l6ZSI6IjEuMjVyZW0ifX0seyJuYW1lIjoic3VidGl0bGUtMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJPcGVuIFNhbnMiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIxLjc1cmVtIiwiZm9udFNpemUiOiIxcmVtIn19LHsibmFtZSI6InN1YnRpdGxlLTIiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMS4zNzVyZW0iLCJmb250U2l6ZSI6IjAuODc1cmVtIn19LHsibmFtZSI6ImJvZHktMSIsInNldHRpbmdzIjp7ImZvbnRGYW1pbHkiOiJPcGVuIFNhbnMiLCJsZXR0ZXJTcGFjaW5nIjoibm9ybWFsIiwiZm9udFdlaWdodCI6IjQwMCIsImxpbmVIZWlnaHQiOiIxLjVyZW0iLCJmb250U2l6ZSI6IjFyZW0ifX0seyJuYW1lIjoiYm9keS0yIiwic2V0dGluZ3MiOnsiZm9udEZhbWlseSI6Ik9wZW4gU2FucyIsImxldHRlclNwYWNpbmciOiJub3JtYWwiLCJmb250V2VpZ2h0IjoiNDAwIiwibGluZUhlaWdodCI6IjEuMjVyZW0iLCJmb250U2l6ZSI6IjAuODc1cmVtIn19LHsibmFtZSI6ImNhcHRpb24iLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMS4yNXJlbSIsImZvbnRTaXplIjoiMC44NXJlbSJ9fSx7Im5hbWUiOiJidXR0b24iLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMi4yNXJlbSIsImZvbnRTaXplIjoiMC44NzVyZW0ifX0seyJuYW1lIjoib3ZlcmxpbmUiLCJzZXR0aW5ncyI6eyJmb250RmFtaWx5IjoiT3BlbiBTYW5zIiwibGV0dGVyU3BhY2luZyI6Im5vcm1hbCIsImZvbnRXZWlnaHQiOiI0MDAiLCJsaW5lSGVpZ2h0IjoiMnJlbSIsImZvbnRTaXplIjoiMC44NXJlbSJ9fV0sInRoZW1lcyI6W3sidGl0bGUiOiJMaWdodCIsImJhY2tncm91bmRDb2xvciI6IiNmYWZhZmEiLCJjb2xvciI6IiMwMDAifSx7InRpdGxlIjoiRGFyayIsImJhY2tncm91bmRDb2xvciI6IiMxZDFkMWQiLCJjb2xvciI6IiNmYWZhZmEifV0sInBhbGV0dGVzIjpbeyJ0aXRsZSI6InByaW1hcnkiLCJiYWNrZ3JvdW5kQ29sb3IiOiIjMmU3NWE3IiwiY29sb3IiOiIjZmZmIn0seyJ0aXRsZSI6ImFjY2VudCIsImJhY2tncm91bmRDb2xvciI6IiNiZGJkYmQiLCJjb2xvciI6IiNmZmYifSx7InRpdGxlIjoid2FybiIsImJhY2tncm91bmRDb2xvciI6IiNGRkJGM0MiLCJjb2xvciI6IiMzMzMifV19
 @use 'sass:map';
-@use '@angular/material/core/theming/all-theme';
-@use '@angular/material/core/core';
-@use '@angular/material/core/theming/theming';
-@use '@angular/material/core/typography/typography';
 @use '@angular/material' as mat;
-@use '@jariahh/material-theming';
+@use '@angular/material/core/theming/theming';
+@use '@angular/material/core/theming/all-theme';
+@use "@angular/material/button/button-theme";
+@use "@angular/material/button/button-theme-private";
+@use "@angular/material/core/mdc-helpers/mdc-helpers";
+@use '@material/theme/theme-color' as mdc-theme-color;
+@use '@material/button/button-text-theme' as mdc-button-text-theme;
+@use '@material/button/button-filled-theme' as mdc-button-filled-theme;
+@use '@material/button/button-protected-theme' as mdc-button-protected-theme;
+@use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
+@use '@jariahh/material-theming' as material-theming;
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
 
 $typography: mat.define-typography-config(
-  $headline-1: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 6rem, $line-height: 6rem, $letter-spacing: normal),
-  $headline-2: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 3.75rem, $line-height: 3.75rem, $letter-spacing: normal),
-  $headline-3: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 3rem, $line-height: 3.125rem, $letter-spacing: normal),
-  $headline-4: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 2.125rem, $line-height: 2.5rem, $letter-spacing: normal),
-  $headline-5: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 1.5rem, $line-height: 2rem, $letter-spacing: normal),
-  $headline-6: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 1.25rem, $line-height: 2rem, $letter-spacing: normal),
-  $subtitle-1: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 1rem, $line-height: 1.75rem, $letter-spacing: normal),
-  $subtitle-2: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 0.875rem, $line-height: 1.375rem, $letter-spacing: normal),
-  $body-1: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 1rem, $line-height: 1.5rem, $letter-spacing: normal),
-  $body-2: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 0.875rem, $line-height: 1.25rem, $letter-spacing: normal),
-  $caption: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 0.85rem, $line-height: 1.25rem, $letter-spacing: normal),
-  $button: mat.define-typography-level($font-family: Inter, $font-weight: 500, $font-size: 0.875rem, $line-height: 2.25rem, $letter-spacing: normal),
-  $overline: mat.define-typography-level($font-family: Inter, $font-weight: regular, $font-size: 0.85rem, $line-height: 2rem, $letter-spacing: normal)
+  $headline-1: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 6rem, $line-height: 6rem, $letter-spacing: normal),
+  $headline-2: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 3.75rem, $line-height: 3.75rem, $letter-spacing: normal),
+  $headline-3: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 3rem, $line-height: 3.125rem, $letter-spacing: normal),
+  $headline-4: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 2.125rem, $line-height: 2.5rem, $letter-spacing: normal),
+  $headline-5: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 1.5rem, $line-height: 2rem, $letter-spacing: normal),
+  $headline-6: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 1.25rem, $line-height: 2rem, $letter-spacing: normal),
+  $subtitle-1: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 1rem, $line-height: 1.75rem, $letter-spacing: normal),
+  $subtitle-2: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 0.875rem, $line-height: 1.375rem, $letter-spacing: normal),
+  $body-1: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 1rem, $line-height: 1.5rem, $letter-spacing: normal),
+  $body-2: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 0.875rem, $line-height: 1.25rem, $letter-spacing: normal),
+  $caption: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 0.85rem, $line-height: 1.25rem, $letter-spacing: normal),
+  $button: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 0.875rem, $line-height: 2.25rem, $letter-spacing: normal),
+  $overline: mat.define-typography-level($font-family: Open Sans, $font-weight: 400, $font-size: 0.85rem, $line-height: 2rem, $letter-spacing: normal)
 );
 $primary-palette: (
-  50:   #9fd7ff,
-  100:  #86bef0,
-  200:  #6da5d7,
-  300:  #548cbe,
-  400:  #457daf,
-  500:  #3b73a5,
-  600:  #31699b,
-  700:  #275f91,
-  800:  #1d5587,
-  900:  #134b7d,
-  A100: #81b9eb,
-  A200: #72aadc,
-  A400: #4078aa,
-  A700: #225a8c,
+  50:   #e6f1f8,
+  100:  #aacee8,
+  200:  #7eb5db,
+  300:  #4695cc,
+  400:  #317db3,
+  500:  #2e75a7,
+  600:  #27648f,
+  700:  #215377,
+  800:  #1a435f,
+  900:  #143247,
+  A100: #d8edfc,
+  A200: #78c2f5,
+  A400: #2c93dc,
+  A700: #2b7cb5,
   contrast: (
-    50:   #2a2a2a,
-    100:  #2a2a2a,
-    200:  #2a2a2a,
-    300:  #2a2a2a,
-    400:  #2a2a2a,
-    500:  #f1f1f1,
-    600:  #f1f1f1,
-    700:  #f1f1f1,
-    800:  #f1f1f1,
-    900:  #f1f1f1,
-    A100: #2a2a2a,
-    A200: #2a2a2a,
-    A400: #f1f1f1,
-    A700: #f1f1f1,
+    50:   #858585,
+    100:  #5e5e5e,
+    200:  #424242,
+    300:  #1f1f1f,
+    400:  #080808,
+    500:  #fafafa,
+    600:  #ebebeb,
+    700:  #dbdbdb,
+    800:  #cccccc,
+    900:  #bdbdbd,
+    A100: #a65959,
+    A200: #633636,
+    A400: #1d1616,
+    A700: #050505,
   )
 );
 $accent-palette: (
-  50:   #6f9fc4,
-  100:  #5686ab,
-  200:  #3d6d92,
-  300:  #245479,
-  400:  #15456a,
-  500:  #0b3b60,
-  600:  #013156,
-  700:  #00274c,
-  800:  #001d42,
-  900:  #001338,
-  A100: #5181a6,
-  A200: #427297,
-  A400: #104065,
-  A700: #002247,
+  50:   #ffffff,
+  100:  #ffffff,
+  200:  #ffffff,
+  300:  #dcdcdc,
+  400:  #c5c5c5,
+  500:  #bdbdbd,
+  600:  #aeaeae,
+  700:  #9e9e9e,
+  800:  #8f8f8f,
+  900:  #808080,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ddd0d0,
+  A700: #c5bfbf,
   contrast: (
-    50:   #2a2a2a,
-    100:  #2a2a2a,
-    200:  #f1f1f1,
-    300:  #f1f1f1,
-    400:  #f1f1f1,
-    500:  #f1f1f1,
-    600:  #f1f1f1,
-    700:  #f1f1f1,
-    800:  #f1f1f1,
-    900:  #f1f1f1,
-    A100: #2a2a2a,
-    A200: #f1f1f1,
-    A400: #f1f1f1,
-    A700: #f1f1f1,
+    50:   #858585,
+    100:  #5e5e5e,
+    200:  #424242,
+    300:  #1f1f1f,
+    400:  #080808,
+    500:  #000000,
+    600:  #000000,
+    700:  #000000,
+    800:  #000000,
+    900:  #000000,
+    A100: #a65959,
+    A200: #633636,
+    A400: #1d1616,
+    A700: #050505,
   )
 );
 $warn-palette: (
-  50:   #ff9289,
-  100:  #ff7970,
-  200:  #fb6057,
-  300:  #e2473e,
-  400:  #d3382f,
-  500:  #c92e25,
-  600:  #bf241b,
-  700:  #b51a11,
-  800:  #ab1007,
-  900:  #a10600,
-  A100: #ff746b,
-  A200: #ff655c,
-  A400: #ce332a,
-  A700: #b0150c,
+  50:   #ffffff,
+  100:  #fffdf9,
+  200:  #ffebc1,
+  300:  #ffd379,
+  400:  #ffc44b,
+  500:  #ffbf3c,
+  600:  #ffb51d,
+  700:  #feaa00,
+  800:  #df9600,
+  900:  #c18100,
+  A100: #ffffff,
+  A200: #fff1d5,
+  A400: #ffd06f,
+  A700: #ffc246,
   contrast: (
-    50:   #2a2a2a,
-    100:  #2a2a2a,
-    200:  #2a2a2a,
-    300:  #2a2a2a,
-    400:  #f1f1f1,
-    500:  #f1f1f1,
-    600:  #f1f1f1,
-    700:  #f1f1f1,
-    800:  #f1f1f1,
-    900:  #f1f1f1,
-    A100: #2a2a2a,
-    A200: #2a2a2a,
-    A400: #f1f1f1,
-    A700: #f1f1f1,
+    50:   #858585,
+    100:  #5e5e5e,
+    200:  #424242,
+    300:  #1f1f1f,
+    400:  #080808,
+    500:  #000000,
+    600:  #000000,
+    700:  #000000,
+    800:  #000000,
+    900:  #000000,
+    A100: #a65959,
+    A200: #633636,
+    A400: #1d1616,
+    A700: #050505,
   )
 );
 
@@ -129,31 +135,31 @@ $light-palette: (
   100:  #ffffff,
   200:  #ffffff,
   300:  #ffffff,
-  400:  #fafafa,
-  500:  #f0f0f0,
-  600:  #e6e6e6,
-  700:  #dcdcdc,
-  800:  #d2d2d2,
-  900:  #c8c8c8,
+  400:  #ffffff,
+  500:  #fafafa,
+  600:  #ebebeb,
+  700:  #dbdbdb,
+  800:  #cccccc,
+  900:  #bdbdbd,
   A100: #ffffff,
   A200: #ffffff,
-  A400: #f5f5f5,
-  A700: #d7d7d7,
+  A400: #ffffff,
+  A700: #ffffff,
   contrast: (
-    50:   #2a2a2a,
-    100:  #2a2a2a,
-    200:  #2a2a2a,
-    300:  #2a2a2a,
-    400:  #2a2a2a,
-    500:  #2a2a2a,
-    600:  #2a2a2a,
-    700:  #2a2a2a,
-    800:  #2a2a2a,
-    900:  #2a2a2a,
-    A100: #2a2a2a,
-    A200: #2a2a2a,
-    A400: #2a2a2a,
-    A700: #2a2a2a,
+    50:   #858585,
+    100:  #5e5e5e,
+    200:  #424242,
+    300:  #1f1f1f,
+    400:  #080808,
+    500:  #000000,
+    600:  #000000,
+    700:  #000000,
+    800:  #000000,
+    900:  #000000,
+    A100: #a65959,
+    A200: #633636,
+    A400: #1d1616,
+    A700: #050505,
   )
 );
 $light-theme-contrast: map.get(map.get($light-palette, contrast), 500);
@@ -162,7 +168,7 @@ $light-theme-default: map.get($light-palette, 500);
 $light-dark-primary-text: rgba($light-theme-default, 0.87);
 $light-dark-secondary-text: rgba($light-theme-default, 0.54);
 $light-dark-disabled-text: rgba($light-theme-default, 0.38);
-$light-dark-dividers: rgba($light-theme-default, 0.12);
+$light-dark-dividers: rgba($light-theme-contrast, 0.05);
 $light-dark-focused: rgba($light-theme-default, 0.12);
 
 $light-light-primary-text: rgba($light-theme-contrast, 0.7);
@@ -175,8 +181,8 @@ $light-light-focused: rgba($light-theme-contrast, 0.12);
 $light-theme-background-palette: (
   status-bar: map.get($light-palette, 300),
   app-bar:    map.get($light-palette, 100),
-  background: map.get($light-palette, 50),
-  hover:      rgba($light-theme-contrast, 0.04), // TODO(kara): check style with Material Design UX
+  background: map.get($light-palette, 300),
+  hover:      rgba($light-theme-contrast, 0.04),
   card:       $light-theme-default,
   dialog:     $light-theme-default,
   disabled-button: rgba($light-theme-contrast, 0.12),
@@ -209,35 +215,35 @@ $light-theme-foreground-palette: (
   slider-off-active: rgba($light-theme-contrast, 0.38),
 );
 $dark-palette: (
-  50:   #959595,
-  100:  #7c7c7c,
-  200:  #636363,
-  300:  #4a4a4a,
-  400:  #3b3b3b,
-  500:  #313131,
-  600:  #272727,
-  700:  #1d1d1d,
-  800:  #131313,
-  900:  #090909,
-  A100: #777777,
-  A200: #686868,
-  A400: #363636,
-  A700: #181818,
+  50:   #a2a2a2,
+  100:  #7b7b7b,
+  200:  #5f5f5f,
+  300:  #3c3c3c,
+  400:  #252525,
+  500:  #1d1d1d,
+  600:  #0e0e0e,
+  700:  #000000,
+  800:  #000000,
+  900:  #000000,
+  A100: #ba7f7f,
+  A200: #894a4a,
+  A400: #3f2e2e,
+  A700: #242020,
   contrast: (
-    50:   #313131,
-    100:  #313131,
-    200:  #f1f1f1,
-    300:  #f1f1f1,
-    400:  #f1f1f1,
-    500:  #f1f1f1,
-    600:  #f1f1f1,
-    700:  #f1f1f1,
-    800:  #f1f1f1,
-    900:  #f1f1f1,
-    A100: #313131,
-    A200: #f1f1f1,
-    A400: #f1f1f1,
-    A700: #f1f1f1,
+    50:   #a2a2a2,
+    100:  #7b7b7b,
+    200:  #ffffff,
+    300:  #ffffff,
+    400:  #ffffff,
+    500:  #fafafa,
+    600:  #ebebeb,
+    700:  #dbdbdb,
+    800:  #cccccc,
+    900:  #bdbdbd,
+    A100: #ba7f7f,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
   )
 );
 $dark-theme-contrast: map.get(map.get($dark-palette, contrast), 500);
@@ -246,7 +252,7 @@ $dark-theme-default: map.get($dark-palette, 500);
 $dark-dark-primary-text: rgba($dark-theme-default, 0.87);
 $dark-dark-secondary-text: rgba($dark-theme-default, 0.54);
 $dark-dark-disabled-text: rgba($dark-theme-default, 0.38);
-$dark-dark-dividers: rgba($dark-theme-default, 0.12);
+$dark-dark-dividers: rgba($dark-theme-default, 0.31);
 $dark-dark-focused: rgba($dark-theme-default, 0.12);
 
 $dark-light-primary-text: rgba($dark-theme-contrast, 0.7);
@@ -259,8 +265,8 @@ $dark-light-focused: rgba($dark-theme-contrast, 0.12);
 $dark-theme-background-palette: (
   status-bar: map.get($dark-palette, 300),
   app-bar:    map.get($dark-palette, 100),
-  background: map.get($dark-palette, 50),
-  hover:      rgba($dark-theme-contrast, 0.04), // TODO(kara): check style with Material Design UX
+  background: map.get($dark-palette, 300),
+  hover:      rgba($dark-theme-contrast, 0.04),
   card:       $dark-theme-default,
   dialog:     $dark-theme-default,
   disabled-button: rgba($dark-theme-contrast, 0.12),
@@ -293,7 +299,7 @@ $dark-theme-foreground-palette: (
   slider-off-active: rgba($dark-theme-contrast, 0.38),
 );
 // Include non-theme styles for core.
-@include core.core();
+@include mat.core();
 
 // Define a theme.
 $primary: theming.define-palette($primary-palette);
@@ -320,18 +326,6 @@ $theme-light: map.deep-merge($theme-light, (
     'foreground': $light-theme-foreground-palette,
   )
 ));
-
-
-
-
-// Include all theme styles for the components.
-@include all-theme.all-component-themes($theme-light);
-@include typography.typography-hierarchy($theme-light);
-@include material-theming.button_color($theme-light);
-@include material-theming.toolbar_color($theme-light);
-
-
-
 $theme-dark: theming.define-dark-theme((
   color: (
     primary: $primary,
@@ -352,13 +346,20 @@ $theme-dark: map.deep-merge($theme-dark, (
   )
 ));
 
+@mixin theme() {
 
-.dark-theme{
 
   // Include all theme styles for the components.
-  @include all-theme.all-component-themes($theme-dark);
-  @include typography.typography-hierarchy($theme-dark);
-  @include material-theming.button_color($theme-dark);
-  @include material-theming.toolbar_color($theme-dark);
+  @include all-theme.all-component-themes($theme-light);
+  @include mat.typography-hierarchy($theme-light);
+  @include material-theming.all-theme($theme-light);
 
+  .dark-theme{
+
+    // Include all theme styles for the components.
+    @include all-theme.all-component-themes($theme-dark);
+    @include mat.typography-hierarchy($theme-dark);
+    @include material-theming.all-theme($theme-dark);
+
+  }
 }

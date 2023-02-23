@@ -71,11 +71,11 @@ export class StyleService {
 @use '@material/button/button-filled-theme' as mdc-button-filled-theme;
 @use '@material/button/button-protected-theme' as mdc-button-protected-theme;
 @use '@material/button/button-outlined-theme' as mdc-button-outlined-theme;
-@use '@jariahh/material-theming/src' as material-theming;
+@use '@jariahh/material-theming' as material-theming;
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 ${_.uniq(options.typographyLevels, (l: any) => l.settings.fontFamily).map((level) => {
-  return `@import url('https://fonts.googleapis.com/css2?family=${level.settings.fontFamily}:wght@300;400;500&display=swap');`
+  return `@import url('https://fonts.googleapis.com/css2?family=${level.settings.fontFamily.replace(/\ /g, '+')}:wght@300;400;500&display=swap');`
     }).join('\n')}
 ${this.buildTypography(options)}
 ${palette}

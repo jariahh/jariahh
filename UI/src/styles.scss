@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'theme';
 html, body{
   margin: 0;
   padding: 0;
@@ -6,4 +7,4 @@ html, body{
 }
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
-@import 'theme';
+@include theme.theme();
