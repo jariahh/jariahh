@@ -1,15 +1,51 @@
-<mat-form-field appearance="fill">
-  <mat-label>Input</mat-label>
-  <input matInput>
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Select</mat-label>
-  <mat-select>
-    <mat-option value="one">First option</mat-option>
-    <mat-option value="two">Second option</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Textarea</mat-label>
-  <textarea matInput></textarea>
-</mat-form-field>
+<div *ngFor="let palette of theme.palettes">
+  <h4>{{palette.title | titlecase}}</h4>
+  <div style="display: flex">
+    <div class="form-host">
+      <mat-form-field appearance="fill"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Input</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Select</mat-label>
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div>
+    <div class="form-host">
+      <mat-form-field appearance="outline"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Input</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field appearance="outline"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Select</mat-label>
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline"
+                      [ngClass]="['mat-' + (palette.title | lowercase | replaceSpaceWithDash)]"
+                      [color]="(palette.title | lowercase | replaceSpaceWithDash | asAny)">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

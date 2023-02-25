@@ -9,7 +9,7 @@
   @include mdc-helpers.using-mdc-theme($config) {
     $is-dark: map.get($config, is-dark);
     $colors: map.get($config-or-theme, color);
-    .mat-mdc-select-panel {
+    .mat-mdc-form-field {
       @each $color, $values in $colors {
         @if (is-map($values)) {
           $contrast: map.get($values, contrast);
@@ -17,15 +17,14 @@
             $on-surface: map.get($contrast, 500);
             $surface: map.get($values, 500);
             &.mat-#{$color} {
-              .mdc-list-item--selected .mdc-list-item__primary-text, .mdc-list-item--activated .mdc-list-item__primary-text {
-                color: var(--mdc-theme-primary, #{$surface});
+              .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+                color: rgba($surface, 0.87);
               }
-
-              .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
-                background: #{$surface};
-
-                &:after {
-                  color: #{$on-surface} !important;
+              .mdc-text-field--focused:not(.mdc-text-field--disabled){
+                .mdc-notched-outline__leading,
+                .mdc-notched-outline__notch,
+                .mdc-notched-outline__trailing {
+                  border-color: #{$surface};
                 }
               }
             }

@@ -11,6 +11,7 @@
 @use './slider/theme' as slider-theme;
 @use './stepper/theme' as stepper-theme;
 @use './tabs/theme' as tabs-theme;
+@use './form-field/theme' as form-field-theme;
 
 @mixin all-theme($config-or-theme) {
   @include toolbar-theme.toolbar_color($config-or-theme);
@@ -26,4 +27,5 @@
   @include slider-theme.theme($config-or-theme);
   @include stepper-theme.theme($config-or-theme);
   @include tabs-theme.theme($config-or-theme);
+  @include form-field-theme.theme($config-or-theme);
 }
